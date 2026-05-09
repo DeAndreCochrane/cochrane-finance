@@ -92,6 +92,18 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 .kpi .val{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .kpi.gr .val{color:var(--green)}.kpi.rd .val{color:var(--red)}.kpi.am .val{color:var(--amber)}.kpi.bl .val{color:var(--accent)}.kpi.pp .val{color:#7c3aed}
 .kpi .sm{font-size:11px;color:var(--muted);margin-top:3px}
+/* Update Buttons */
+.li-wrap{position:relative;display:flex;flex-direction:column;gap:5px}
+.lb-row{display:flex;gap:5px}
+.lb-row .lb{flex:1}
+.upd-btn{display:flex;align-items:center;justify-content:center;gap:5px;padding:6px 10px;border-radius:9px;background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(168,85,247,.15));border:1px solid rgba(99,102,241,.3);color:#7c3aed;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.5px;width:100%}
+.upd-btn:hover{background:linear-gradient(135deg,rgba(99,102,241,.3),rgba(168,85,247,.3));border-color:rgba(99,102,241,.6);transform:translateY(-1px)}
+.kpi{position:relative}
+.kpi-upd{position:absolute;top:8px;right:8px;padding:3px 7px;border-radius:6px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.22);color:#7c3aed;font-size:10px;cursor:pointer;transition:all .2s;line-height:1}
+.kpi-upd:hover{background:rgba(99,102,241,.25);border-color:rgba(99,102,241,.5)}
+.sec-upd{float:right;margin-top:-2px;padding:4px 10px;border-radius:7px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.22);color:#7c3aed;font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.sec-upd:hover{background:rgba(99,102,241,.25)}
+
 
 /* Chart panels */
 .cpanel{padding:20px 22px}
@@ -439,13 +451,25 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 <div class="ql g sec">
   <h2>🔗 Open Account · Capture Screenshots</h2>
   <div class="lg">
-    <a class="lb" href="https://www.navyfederal.org" target="_blank"><span class="lo nfcu">NF</span>NFCU</a>
-    <a class="lb" href="https://www.americanexpress.com" target="_blank"><span class="lo amex">AX</span>Amex</a>
+    <div class="li-wrap">
+      <div class="lb-row"><a class="lb" href="https://www.navyfederal.org" target="_blank"><span class="lo nfcu">NF</span>NFCU</a></div>
+      <button class="upd-btn" onclick="sendPrompt('Navigate to navyfederal.org and screenshot my NFCU account balances. Update these on my dashboard: Billing Checking ···8332, Surplus Savings ···9330, Emergency Fund savings, and Vehicle Loan ···9610 balance.')">📷 Update NFCU</button>
+    </div>
+    <div class="li-wrap">
+      <div class="lb-row"><a class="lb" href="https://www.americanexpress.com" target="_blank"><span class="lo amex">AX</span>Amex</a></div>
+      <button class="upd-btn" onclick="sendPrompt('Navigate to americanexpress.com and screenshot my Amex More Rewards card ···3428 — capture the current balance and minimum payment due. Update the Amex KPI and debt tracker on my dashboard.')">📷 Update Amex</button>
+    </div>
     <a class="lb" href="https://www.chase.com" target="_blank"><span class="lo chase">CH</span>Chase</a>
     <a class="lb" href="https://www.wellsfargo.com" target="_blank"><span class="lo wells">WF</span>Wells Fargo</a>
     <a class="lb" href="https://www.biltrewards.com" target="_blank"><span class="lo bilt">BR</span>Bilt</a>
-    <a class="lb" href="https://bankwithcit.com" target="_blank"><span class="lo cit">CIT</span>CIT HYSA</a>
-    <a class="lb" href="https://nb.fidelity.com" target="_blank"><span class="lo fid">FD</span>Fidelity</a>
+    <div class="li-wrap">
+      <div class="lb-row"><a class="lb" href="https://bankwithcit.com" target="_blank"><span class="lo cit">CIT</span>CIT HYSA</a></div>
+      <button class="upd-btn" onclick="sendPrompt('Navigate to bankwithcit.com and screenshot my CIT HYSA account balance (···5948). Update the CIT HYSA KPI on my dashboard with the current balance.')">📷 Update CIT</button>
+    </div>
+    <div class="li-wrap">
+      <div class="lb-row"><a class="lb" href="https://nb.fidelity.com" target="_blank"><span class="lo fid">FD</span>Fidelity</a></div>
+      <button class="upd-btn" onclick="sendPrompt('Navigate to nb.fidelity.com and screenshot my Fidelity account total balance to update the Investments KPI on my dashboard.')">📷 Update Fidelity</button>
+    </div>
     <a class="lb" href="https://investor.vanguard.com" target="_blank"><span class="lo van">VG</span>Vanguard</a>
     <a class="lb" href="https://myhr.microsoft.com" target="_blank"><span class="lo ms">MS</span>MS Benefits</a>
     <a class="lb" href="https://myaccount.allstate.com" target="_blank"><span class="lo all">AS</span>Allstate</a>
@@ -484,16 +508,16 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 
 <!-- KPIs -->
 <div class="kpi-g sec">
-  <div class="kpi g gr"><div class="lbl">Cash Available</div><div class="val">$1,434.07</div><div class="sm">Billing Acct ···8332</div></div>
-  <div class="kpi g pp"><div class="lbl">⭐ CIT HYSA</div><div class="val">$10,143.84</div><div class="sm">···5948 · +$680/pay sweep</div></div>
+  <div class="kpi g gr"><button class="kpi-upd" onclick="sendPrompt('Navigate to navyfederal.org and screenshot my NFCU Billing Checking ···8332 available balance to update Cash Available on my dashboard.')">📷</button><div class="lbl">Cash Available</div><div class="val">$1,434.07</div><div class="sm">Billing Acct ···8332</div></div>
+  <div class="kpi g pp"><button class="kpi-upd" onclick="sendPrompt('Navigate to bankwithcit.com and screenshot my CIT HYSA balance (···5948) to update the CIT HYSA KPI on my dashboard.')">📷</button><div class="lbl">⭐ CIT HYSA</div><div class="val">$10,143.84</div><div class="sm">···5948 · +$680/pay sweep</div></div>
   <div class="kpi g bl"><div class="lbl">Investments</div><div class="val">$26,139.15</div><div class="sm">401K · IRA · Brokerage · Equity</div></div>
-  <div class="kpi g rd"><div class="lbl">Amex Balance</div><div class="val">$9,304.91</div><div class="sm">18% APR · Priority #1</div></div>
+  <div class="kpi g rd"><button class="kpi-upd" onclick="sendPrompt('Navigate to americanexpress.com and screenshot my Amex More Rewards ···3428 balance to update the Amex Balance KPI on my dashboard.')">📷</button><div class="lbl">Amex Balance</div><div class="val">$9,304.91</div><div class="sm">18% APR · Priority #1</div></div>
   <div class="kpi g am"><div class="lbl">Net Worth</div><div class="val">−$22,133.76</div><div class="sm">incl. home equity</div></div>
 </div>
 
 <!-- ===== MORTGAGE + ESCROW TRACKER ===== -->
 <div class="pan g sec">
-  <h2>🏠 MORTGAGE + ESCROW · BofA ···1381 · Henry County GA</h2>
+  <h2>🏠 MORTGAGE + ESCROW · BofA ···1381 · Henry County GA<button class="sec-upd" onclick="sendPrompt('Navigate to bankofamerica.com and screenshot my mortgage account ···1381 — capture principal balance, escrow balance, next payment amount, and due date to update the Mortgage section of my dashboard.')">📷 Update</button></h2>
 
   <!-- KPI row -->
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
