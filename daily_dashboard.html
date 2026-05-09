@@ -450,6 +450,98 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 
 @media(max-width:900px){.weather-row{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.tab{padding:10px 12px;font-size:12px}.tab .em{font-size:15px}}
+
+/* ===== APOTHECARY ===== */
+.apo-hdr{padding:20px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.apo-hdr h1{font-size:25px;font-weight:900;letter-spacing:-.5px;background:linear-gradient(135deg,#6d28d9,#a78bfa,#d97706);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.apo-hdr .sub{color:var(--ink2);font-size:13px;margin-top:2px}
+.apo-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(109,40,217,.10);color:#6d28d9;border:1px solid rgba(109,40,217,.25)}
+.apo-pill.season{background:rgba(217,119,6,.10);color:#92400e;border-color:rgba(217,119,6,.3)}
+
+/* Herb cards */
+.herb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.herb-card{padding:18px 20px;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.75),rgba(245,240,255,.7));border:1px solid rgba(167,139,250,.3);position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(109,40,217,.07)}
+.herb-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#7c3aed,#a78bfa)}
+.herb-card.mint::before{background:linear-gradient(180deg,#059669,#34d399)}
+.herb-card.lavender::before{background:linear-gradient(180deg,#7c3aed,#c4b5fd)}
+.herb-card.rosemary::before{background:linear-gradient(180deg,#1d4ed8,#60a5fa)}
+.herb-card.thyme::before{background:linear-gradient(180deg,#92400e,#d97706)}
+.herb-card.tulsi::before{background:linear-gradient(180deg,#dc2626,#f87171)}
+.herb-card.calendula::before{background:linear-gradient(180deg,#d97706,#fbbf24)}
+.herb-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.herb-name{font-weight:900;font-size:16px;color:var(--ink)}
+.herb-latin{font-size:10px;color:var(--muted);font-style:italic;margin-top:2px}
+.herb-emoji{font-size:30px;line-height:1}
+.herb-uses{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 10px}
+.use-tag{padding:3px 9px;border-radius:999px;font-size:10px;font-weight:700;background:rgba(109,40,217,.1);color:#6d28d9;border:1px solid rgba(109,40,217,.2)}
+.use-tag.body{background:rgba(5,150,105,.1);color:#065f46;border-color:rgba(5,150,105,.2)}
+.use-tag.mind{background:rgba(59,130,246,.1);color:#1d4ed8;border-color:rgba(59,130,246,.2)}
+.use-tag.skin{background:rgba(217,119,6,.1);color:#92400e;border-color:rgba(217,119,6,.2)}
+.use-tag.home{background:rgba(107,120,149,.1);color:var(--ink2);border-color:rgba(107,120,149,.2)}
+.herb-row{display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);padding:3px 0;border-bottom:1px dashed rgba(167,139,250,.2)}
+.herb-row:last-of-type{border-bottom:none}
+.herb-row b{color:var(--ink);font-weight:700}
+.herb-status{display:inline-block;margin-top:10px;padding:4px 11px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.herb-status.seedling{background:rgba(59,130,246,.12);color:#1d4ed8}
+.herb-status.growing{background:rgba(5,150,105,.12);color:#065f46}
+.herb-status.ready{background:rgba(16,185,129,.15);color:#059669}
+.herb-status.planned{background:rgba(107,120,149,.1);color:var(--muted)}
+.herb-tip{font-size:11px;color:var(--ink2);margin-top:8px;padding:8px 10px;border-radius:9px;background:rgba(245,243,255,.8);border:1px solid rgba(167,139,250,.25);line-height:1.45}
+
+/* What to plant cards */
+.plant-now-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.pnow{padding:13px 15px;border-radius:13px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.8)}
+.pnow.go{border-left:4px solid #10b981}
+.pnow.wait{border-left:4px solid #f59e0b}
+.pnow.fall{border-left:4px solid #6366f1}
+.pnow-hd{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.pnow-em{font-size:20px}
+.pnow-name{font-weight:800;font-size:13px;color:var(--ink)}
+.pnow-when{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.pnow.go .pnow-when{color:#059669}
+.pnow.wait .pnow-when{color:#d97706}
+.pnow.fall .pnow-when{color:#6366f1}
+.pnow-body{font-size:11px;color:var(--ink2);line-height:1.45}
+
+/* Prep reference */
+.prep-table{width:100%;border-collapse:collapse;font-size:12px}
+.prep-table th{text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:6px 10px;border-bottom:2px solid rgba(167,139,250,.2)}
+.prep-table td{padding:9px 10px;border-bottom:1px dashed rgba(167,139,250,.15);color:var(--ink2);vertical-align:top}
+.prep-table tr:last-child td{border-bottom:none}
+.prep-table td:first-child{font-weight:700;color:var(--ink);white-space:nowrap}
+.prep-badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:700;margin:1px 2px}
+.pb-tea{background:rgba(5,150,105,.12);color:#065f46}
+.pb-tinc{background:rgba(109,40,217,.12);color:#6d28d9}
+.pb-salve{background:rgba(217,119,6,.12);color:#92400e}
+.pb-oil{background:rgba(59,130,246,.12);color:#1d4ed8}
+
+/* Harvest log */
+.hlog-table{width:100%;border-collapse:collapse;font-size:12px}
+.hlog-table th{text-align:left;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:6px 10px;border-bottom:2px solid rgba(167,139,250,.2)}
+.hlog-table td{padding:9px 10px;border-bottom:1px dashed rgba(167,139,250,.15);color:var(--ink2)}
+.hlog-table tr:last-child td{border-bottom:none}
+.hlog-empty{text-align:center;padding:24px;color:var(--muted);font-style:italic;font-size:13px}
+
+/* Journal */
+.journal-wrap{background:rgba(255,252,245,.8);border:1px solid rgba(217,119,6,.2);border-radius:14px;padding:20px 22px;position:relative}
+.journal-wrap::before{content:'';position:absolute;left:54px;top:0;bottom:0;width:1px;background:rgba(217,119,6,.15)}
+.journal-lines{font-size:13px;color:var(--ink2);line-height:2;font-family:'Georgia',serif}
+.journal-entry{padding:6px 0 6px 70px;border-bottom:1px solid rgba(217,119,6,.1);position:relative}
+.journal-entry .jdate{position:absolute;left:0;top:6px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:60px;text-align:right}
+.journal-entry .jbody{color:var(--ink);font-size:13px;line-height:1.6}
+
+/* Safety */
+.safety-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.safety-card{padding:13px 15px;border-radius:12px;font-size:12px}
+.safety-card.ok{background:rgba(220,252,231,.5);border:1px solid rgba(5,150,105,.2)}
+.safety-card.caution{background:rgba(254,243,199,.5);border:1px solid rgba(217,119,6,.25)}
+.safety-card.avoid{background:rgba(254,226,226,.5);border:1px solid rgba(220,38,38,.2)}
+.safety-hd{font-weight:800;font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.safety-card.ok .safety-hd{color:#065f46}
+.safety-card.caution .safety-hd{color:#92400e}
+.safety-card.avoid .safety-hd{color:var(--red)}
+.safety-body{color:var(--ink2);line-height:1.5}
+
 </style>
 </head>
 <body>
@@ -459,6 +551,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 <div class="tabs">
   <button class="tab active" data-tab="finance"><span class="em">💰</span> Finance</button>
   <button class="tab" data-tab="garden"><span class="em">🌱</span> Garden</button>
+  <button class="tab" data-tab="apothecary"><span class="em">🌿</span> Apothecary</button>
 </div>
 
 <!-- ===================== FINANCE TAB ===================== -->
@@ -1740,6 +1833,414 @@ document.addEventListener('click', function(e) {
   }
 });
 </script>
+
+
+<!-- ===================== APOTHECARY TAB ===================== -->
+<div id="apothecary-pane" class="tab-pane">
+
+<!-- HEADER -->
+<div class="apo-hdr g sec">
+  <div>
+    <h1>🌿 Valencia's Apothecary Garden</h1>
+    <div class="sub">Herbs · Remedies · Preparations · McDonough, GA · Zone 8a</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <span class="apo-pill">📍 Zone 8a · Last frost Apr 5</span>
+    <span class="apo-pill season">🌞 May · Prime planting window</span>
+  </div>
+</div>
+
+<!-- WHAT TO PLANT NOW -->
+<div class="cpanel g sec">
+  <h2>🌱 What to Plant Right Now · Zone 8a · May 2026</h2>
+  <div class="desc">May is the green light month — soil is warm, no frost risk. These all thrive in McDonough heat and double as your apothecary foundation.</div>
+  <div class="plant-now-grid" style="margin-top:14px">
+
+    <div class="pnow go">
+      <div class="pnow-hd"><div class="pnow-em">💜</div><div class="pnow-name">Lavender</div></div>
+      <div class="pnow-when">✅ Plant now — full sun</div>
+      <div class="pnow-body">Prefers dry, well-drained soil. Excellent in pots. Blooms by July. Deadhead spent flowers to extend season and dry them for sachets + sleep pillows.</div>
+    </div>
+
+    <div class="pnow go">
+      <div class="pnow-hd"><div class="pnow-em">🌿</div><div class="pnow-name">Spearmint / Peppermint</div></div>
+      <div class="pnow-when">✅ Plant now — keep contained!</div>
+      <div class="pnow-body">Mint spreads aggressively — grow in its own pot always. Loves moisture and partial shade in GA summers. Harvest before it flowers for best flavor.</div>
+    </div>
+
+    <div class="pnow go">
+      <div class="pnow-hd"><div class="pnow-em">🌲</div><div class="pnow-name">Rosemary</div></div>
+      <div class="pnow-when">✅ Plant now — drought tolerant</div>
+      <div class="pnow-body">Thrives in Zone 8a heat. Can grow into a large shrub — give it space or a big container. Hardy through GA winters. Slow to establish, pays dividends for years.</div>
+    </div>
+
+    <div class="pnow go">
+      <div class="pnow-hd"><div class="pnow-em">🌾</div><div class="pnow-name">Thyme</div></div>
+      <div class="pnow-when">✅ Plant now — full sun</div>
+      <div class="pnow-body">Low-growing, drought tolerant. Excellent companion plant. Harvest sprigs regularly to keep bushy. Dry easily — hang in small bundles for 2 weeks.</div>
+    </div>
+
+    <div class="pnow go">
+      <div class="pnow-hd"><div class="pnow-em">🌼</div><div class="pnow-name">Calendula</div></div>
+      <div class="pnow-when">✅ Plant now — skin gold</div>
+      <div class="pnow-body">Zone 8a can grow spring through early summer before heat sets in. Plant now, harvest petals continuously. The #1 herb for DIY salves and infused oils.</div>
+    </div>
+
+    <div class="pnow go">
+      <div class="pnow-hd"><div class="pnow-em">🍋</div><div class="pnow-name">Lemon Balm</div></div>
+      <div class="pnow-when">✅ Plant now — mild shade OK</div>
+      <div class="pnow-body">Calming tea herb, great with kids. Gentle enough for the whole family. Spreads like mint — pot it. Pairs beautifully with chamomile for evening teas.</div>
+    </div>
+
+    <div class="pnow wait">
+      <div class="pnow-hd"><div class="pnow-em">🌸</div><div class="pnow-name">Chamomile</div></div>
+      <div class="pnow-when">⚠️ Plant by June 1 — it's now or fall</div>
+      <div class="pnow-body">German chamomile prefers cooler temps. You can try now with afternoon shade. Better bet: start seeds indoors in September for fall/winter crop. Worth the wait.</div>
+    </div>
+
+    <div class="pnow fall">
+      <div class="pnow-hd"><div class="pnow-em">🟣</div><div class="pnow-name">Echinacea (Coneflower)</div></div>
+      <div class="pnow-when">🍂 Plant in fall · perennial payoff</div>
+      <div class="pnow-body">Perennial — plant once, grows for years. Best started in fall (Oct) in Zone 8a. Blooms May–Aug, pollinators love it. Roots used medicinally after year 2–3.</div>
+    </div>
+
+    <div class="pnow fall">
+      <div class="pnow-hd"><div class="pnow-em">🌼</div><div class="pnow-name">St. John's Wort</div></div>
+      <div class="pnow-when">🍂 Best started in fall</div>
+      <div class="pnow-body">Perennial herb for mood support. Flowers must be harvested at exact bloom peak (July–Aug). Start seeds in fall for your first harvest next summer.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTIVE HERB TRACKER -->
+<div class="cpanel g sec">
+  <h2>🪴 Valencia's Herb Tracker · Active Garden</h2>
+  <div class="desc">Track your herbs from planting to harvest. Update status as they grow — this is your living record.</div>
+  <div class="herb-grid" style="margin-top:14px">
+
+    <!-- LAVENDER -->
+    <div class="herb-card lavender">
+      <div class="herb-hd">
+        <div><div class="herb-name">Lavender</div><div class="herb-latin">Lavandula angustifolia</div></div>
+        <div class="herb-emoji">💜</div>
+      </div>
+      <div class="herb-uses">
+        <span class="use-tag mind">Sleep</span>
+        <span class="use-tag mind">Calm</span>
+        <span class="use-tag skin">Skin</span>
+        <span class="use-tag home">Sachets</span>
+      </div>
+      <div class="herb-row"><span>Status:</span><b>Just planted</b></div>
+      <div class="herb-row"><span>Sun:</span><b>Full sun (6–8 hrs)</b></div>
+      <div class="herb-row"><span>Water:</span><b>Low — drought tolerant</b></div>
+      <div class="herb-row"><span>First harvest:</span><b>~July 2026</b></div>
+      <div class="herb-row"><span>Prep methods:</span><b>Dry, oil infusion, sachets</b></div>
+      <span class="herb-status seedling">Seedling</span>
+      <div class="herb-tip">💡 Harvest spikes when 1/3 of buds are open — that's peak oil content. Hang-dry in bundles for 2 weeks, away from light.</div>
+    </div>
+
+    <!-- MINT -->
+    <div class="herb-card mint">
+      <div class="herb-hd">
+        <div><div class="herb-name">Mint</div><div class="herb-latin">Mentha × piperita / spicata</div></div>
+        <div class="herb-emoji">🌿</div>
+      </div>
+      <div class="herb-uses">
+        <span class="use-tag body">Digestion</span>
+        <span class="use-tag body">Headache</span>
+        <span class="use-tag mind">Focus</span>
+        <span class="use-tag home">Tea</span>
+      </div>
+      <div class="herb-row"><span>Status:</span><b>Just planted</b></div>
+      <div class="herb-row"><span>Sun:</span><b>Part shade in GA heat</b></div>
+      <div class="herb-row"><span>Water:</span><b>Consistent moisture</b></div>
+      <div class="herb-row"><span>First harvest:</span><b>~6 weeks after planting</b></div>
+      <div class="herb-row"><span>Prep methods:</span><b>Fresh tea, dry, tincture</b></div>
+      <span class="herb-status seedling">Seedling</span>
+      <div class="herb-tip">⚠️ Keep in its own dedicated pot — mint will take over any shared container or bed. You'll thank yourself later.</div>
+    </div>
+
+    <!-- ROSEMARY -->
+    <div class="herb-card rosemary">
+      <div class="herb-hd">
+        <div><div class="herb-name">Rosemary</div><div class="herb-latin">Salvia rosmarinus</div></div>
+        <div class="herb-emoji">🌲</div>
+      </div>
+      <div class="herb-uses">
+        <span class="use-tag mind">Memory</span>
+        <span class="use-tag body">Circulation</span>
+        <span class="use-tag skin">Hair/Scalp</span>
+        <span class="use-tag home">Cooking</span>
+      </div>
+      <div class="herb-row"><span>Status:</span><b>Just planted</b></div>
+      <div class="herb-row"><span>Sun:</span><b>Full sun — loves heat</b></div>
+      <div class="herb-row"><span>Water:</span><b>Low — let soil dry out</b></div>
+      <div class="herb-row"><span>First harvest:</span><b>Light harvest in 8–10 wks</b></div>
+      <div class="herb-row"><span>Prep methods:</span><b>Oil infusion, tincture, dry</b></div>
+      <span class="herb-status seedling">Seedling</span>
+      <div class="herb-tip">💡 Rosemary-infused oil is a popular scalp and hair strengthening treatment. Steep fresh sprigs in olive or jojoba oil for 4–6 weeks.</div>
+    </div>
+
+    <!-- THYME -->
+    <div class="herb-card thyme">
+      <div class="herb-hd">
+        <div><div class="herb-name">Thyme</div><div class="herb-latin">Thymus vulgaris</div></div>
+        <div class="herb-emoji">🌾</div>
+      </div>
+      <div class="herb-uses">
+        <span class="use-tag body">Immune</span>
+        <span class="use-tag body">Throat</span>
+        <span class="use-tag home">Cooking</span>
+        <span class="use-tag skin">Antiseptic</span>
+      </div>
+      <div class="herb-row"><span>Status:</span><b>Just planted</b></div>
+      <div class="herb-row"><span>Sun:</span><b>Full sun</b></div>
+      <div class="herb-row"><span>Water:</span><b>Low — very drought tolerant</b></div>
+      <div class="herb-row"><span>First harvest:</span><b>~4–6 weeks</b></div>
+      <div class="herb-row"><span>Prep methods:</span><b>Honey infusion, dry, steam</b></div>
+      <span class="herb-status seedling">Seedling</span>
+      <div class="herb-tip">💡 Thyme honey is one of the most effective natural throat soothers — steep fresh thyme sprigs in raw honey for 2 weeks. Great for the whole family.</div>
+    </div>
+
+    <!-- TULSI -->
+    <div class="herb-card tulsi">
+      <div class="herb-hd">
+        <div><div class="herb-name">Holy Basil (Tulsi)</div><div class="herb-latin">Ocimum tenuiflorum</div></div>
+        <div class="herb-emoji">🌺</div>
+      </div>
+      <div class="herb-uses">
+        <span class="use-tag mind">Stress</span>
+        <span class="use-tag body">Immune</span>
+        <span class="use-tag body">Adaptogen</span>
+        <span class="use-tag home">Tea</span>
+      </div>
+      <div class="herb-row"><span>Status:</span><b>Already growing — garden</b></div>
+      <div class="herb-row"><span>Sun:</span><b>Full sun</b></div>
+      <div class="herb-row"><span>Water:</span><b>Moderate</b></div>
+      <div class="herb-row"><span>First harvest:</span><b>Available now — pinch tops</b></div>
+      <div class="herb-row"><span>Prep methods:</span><b>Fresh or dried tea, tincture</b></div>
+      <span class="herb-status ready">Ready to harvest</span>
+      <div class="herb-tip">✅ You have tulsi growing now. Pinch flower heads off to keep it leafy and productive longer. Tulsi tea is a beautiful daily ritual — try it with honey + lemon.</div>
+    </div>
+
+    <!-- ADD MORE placeholder -->
+    <div class="herb-card" style="border:2px dashed rgba(167,139,250,.35);background:rgba(245,243,255,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:200px;box-shadow:none">
+      <div style="font-size:32px;margin-bottom:10px">➕</div>
+      <div style="font-weight:800;color:var(--muted);font-size:14px">Add next herb</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5">Calendula, Lemon Balm,<br>Chamomile, or Echinacea?</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PREPARATIONS & USES REFERENCE -->
+<div class="cpanel g sec">
+  <h2>🧪 Herb Preparations · Quick Reference</h2>
+  <div class="desc">What each herb makes, how to make it, and what it's good for. Your growing reference guide — update as you learn.</div>
+  <div style="margin-top:14px;overflow-x:auto">
+    <table class="prep-table">
+      <thead>
+        <tr>
+          <th>Herb</th>
+          <th>Best Preparations</th>
+          <th>Primary Uses</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>💜 Lavender</td>
+          <td>
+            <span class="prep-badge pb-tea">Dry tea</span>
+            <span class="prep-badge pb-oil">Infused oil</span>
+            <span class="prep-badge pb-salve">Sachets</span>
+          </td>
+          <td>Sleep, anxiety, headache, minor burns, skin calm</td>
+          <td>Add 1 tsp dried flowers to tea. Oil infusion takes 4–6 wks. Sachets last 6–12 months.</td>
+        </tr>
+        <tr>
+          <td>🌿 Mint</td>
+          <td>
+            <span class="prep-badge pb-tea">Fresh tea</span>
+            <span class="prep-badge pb-tinc">Tincture</span>
+            <span class="prep-badge pb-oil">Steam</span>
+          </td>
+          <td>Digestion, nausea, headaches, congestion, energy</td>
+          <td>Steep fresh leaves 5–7 min. Steam inhalation for congestion — bowl of hot water + 5 leaves.</td>
+        </tr>
+        <tr>
+          <td>🌲 Rosemary</td>
+          <td>
+            <span class="prep-badge pb-oil">Infused oil</span>
+            <span class="prep-badge pb-tea">Tea</span>
+            <span class="prep-badge pb-tinc">Tincture</span>
+          </td>
+          <td>Memory/focus, circulation, hair growth, muscle pain</td>
+          <td>Rosemary scalp oil: 2 sprigs in 4oz jojoba, 6 weeks. Rosemary tea: 1 sprig steeped 10 min.</td>
+        </tr>
+        <tr>
+          <td>🌾 Thyme</td>
+          <td>
+            <span class="prep-badge pb-tea">Honey infusion</span>
+            <span class="prep-badge pb-tea">Tea</span>
+            <span class="prep-badge pb-salve">Poultice</span>
+          </td>
+          <td>Immune support, sore throat, cough, antiseptic wounds</td>
+          <td>Thyme honey: pack fresh thyme in raw honey, steep 2 weeks. 1 tsp at onset of sore throat.</td>
+        </tr>
+        <tr>
+          <td>🌺 Tulsi</td>
+          <td>
+            <span class="prep-badge pb-tea">Daily tea</span>
+            <span class="prep-badge pb-tinc">Tincture</span>
+          </td>
+          <td>Stress adaptogen, immune boost, mental clarity, adrenal support</td>
+          <td>1–2 tsp dried leaf steeped 10 min. Tulsi is a true adaptogen — daily use compounds benefits over time.</td>
+        </tr>
+        <tr>
+          <td>🌼 Calendula <span style="font-size:10px;color:var(--muted)">(wishlist)</span></td>
+          <td>
+            <span class="prep-badge pb-oil">Infused oil</span>
+            <span class="prep-badge pb-salve">Salve</span>
+            <span class="prep-badge pb-tea">Tea</span>
+          </td>
+          <td>Skin healing, wounds, eczema, diaper rash, inflammation</td>
+          <td>The MVP of skin care herbs. Calendula salve = infused oil + beeswax. Shelf life 1 year.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- HARVEST & DRY LOG -->
+<div class="cpanel g sec">
+  <h2>📦 Harvest & Dry Log</h2>
+  <div class="desc">Every harvest recorded. Date, herb, method, and when it's ready to use. Your apothecary inventory starts here.</div>
+  <div style="margin-top:14px;overflow-x:auto">
+    <table class="hlog-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Herb</th>
+          <th>Amount</th>
+          <th>Method</th>
+          <th>Ready By</th>
+          <th>Used For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="6" class="hlog-empty">🌿 No harvests yet — your first one will be Tulsi. Pinch 4–6 stems and hang-dry in a warm, dark spot.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:12px;padding:12px 14px;border-radius:10px;background:rgba(245,243,255,.7);border:1px solid rgba(167,139,250,.25);font-size:12px;color:var(--ink2)">
+    <b>📋 Drying methods:</b> &nbsp;
+    <b>Hang-dry</b> — small bundles, warm/dark, 1–2 weeks · &nbsp;
+    <b>Dehydrator</b> — 95°F, 1–4 hrs, best for thick leaves · &nbsp;
+    <b>Screen</b> — single layer, good airflow, 1 week · &nbsp;
+    <b>Oven</b> — lowest setting, door cracked, 2–4 hrs (last resort — loses oils)
+  </div>
+</div>
+
+<!-- JOURNAL -->
+<div class="cpanel g sec">
+  <h2>📓 Valencia's Garden Journal</h2>
+  <div class="desc">Your personal record — observations, experiments, what worked, what didn't. Apothecary knowledge builds over seasons.</div>
+  <div class="journal-wrap" style="margin-top:14px">
+    <div class="journal-entry">
+      <div class="jdate">May 9<br>2026</div>
+      <div class="jbody">🌱 <b>Started the apothecary garden.</b> Planted lavender, mint, rosemary, and thyme. Tulsi already growing strong in the garden buckets. Excited to learn what each one can do. This is just the beginning.</div>
+    </div>
+    <div class="journal-entry" style="opacity:.4;font-style:italic">
+      <div class="jdate">Next<br>entry</div>
+      <div class="jbody">Notes on how your herbs are doing, what you noticed, any recipes you tried...</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOPPING & WISHLIST -->
+<div class="cpanel g sec">
+  <h2>🛒 Next to Get · Apothecary Wishlist</h2>
+  <div class="desc">Herbs to add next + trusted sources. Prioritized by impact and how well they grow in Zone 8a.</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px">
+
+    <div class="pnow go" style="border-left-width:4px">
+      <div class="pnow-hd"><div class="pnow-em">🌼</div><div class="pnow-name">Calendula</div></div>
+      <div class="pnow-when">✅ GET NOW — plant before June</div>
+      <div class="pnow-body">The single best herb for DIY skin care. One plant = months of petals for salves and oils. Seeds: Strictly Medicinal Seeds (~$4). Gets easier every year — self-seeds.</div>
+    </div>
+
+    <div class="pnow go" style="border-left-width:4px">
+      <div class="pnow-hd"><div class="pnow-em">🍋</div><div class="pnow-name">Lemon Balm</div></div>
+      <div class="pnow-when">✅ GET NOW — easy for beginners</div>
+      <div class="pnow-body">Calming, kid-safe, makes beautiful tea blended with mint. Grows fast in Zone 8a. One of the most forgiving apothecary herbs. Seeds or starts from any nursery.</div>
+    </div>
+
+    <div class="pnow wait" style="border-left-width:4px">
+      <div class="pnow-hd"><div class="pnow-em">🟣</div><div class="pnow-name">Echinacea</div></div>
+      <div class="pnow-when">⏳ Fall planting · long game</div>
+      <div class="pnow-body">Native coneflower — perennial, blooms for pollinators, roots used medicinally after year 3. Plant in October for years of benefit. Seeds: Prairie Moon Nursery.</div>
+    </div>
+
+    <div class="pnow wait" style="border-left-width:4px">
+      <div class="pnow-hd"><div class="pnow-em">🌸</div><div class="pnow-name">Chamomile</div></div>
+      <div class="pnow-when">⏳ Fall start for best results</div>
+      <div class="pnow-body">German chamomile for teas and skin. Prefers cooler soil — best sown in September directly in garden. Seeds: Baker Creek ($3). Worth the wait for the tea alone.</div>
+    </div>
+
+  </div>
+  <div style="margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(245,243,255,.7);border:1px solid rgba(167,139,250,.25);font-size:12px;color:var(--ink2);line-height:1.6">
+    <b>🔗 Trusted Sources:</b>&nbsp;
+    <b>Strictly Medicinal Seeds</b> (strictlymedicinalseeds.com) — best medicinal herb seed selection · &nbsp;
+    <b>Mountain Rose Herbs</b> (mountainroseherbs.com) — bulk dried herbs + supplies · &nbsp;
+    <b>Baker Creek</b> (rareseeds.com) — heirloom seeds, excellent variety · &nbsp;
+    <b>Local:</b> Pike Nurseries and Lowe's Garden Center carry lavender + rosemary starts in spring
+  </div>
+</div>
+
+<!-- SAFETY CORNER -->
+<div class="cpanel g sec">
+  <h2>⚠️ Safety Corner · Herbs & Your Household</h2>
+  <div class="desc">With 3 kids in the house, this matters. Know what's safe, what needs care, and what to avoid entirely.</div>
+  <div class="safety-grid" style="margin-top:14px">
+
+    <div class="safety-card ok">
+      <div class="safety-hd">✅ Safe for Kids (in small amounts)</div>
+      <div class="safety-body"><b>Lavender, Chamomile, Lemon Balm, Tulsi</b> — mild herbs, gentle teas appropriate for children. Chamomile tea has been used for infant colic for centuries. Use 1/4 adult strength for kids under 5.</div>
+    </div>
+
+    <div class="safety-card ok">
+      <div class="safety-hd">✅ Safe for Kids (culinary use)</div>
+      <div class="safety-body"><b>Mint, Rosemary, Thyme</b> — all safe in normal culinary amounts. Thyme honey is a classic kid-safe sore throat remedy. Mint tea should be diluted for toddlers.</div>
+    </div>
+
+    <div class="safety-card caution">
+      <div class="safety-hd">⚠️ Use with Care</div>
+      <div class="safety-body"><b>Mint</b> — avoid menthol products near infants under 2 years (breathing risk). Spearmint preferred over peppermint for young children. <b>Rosemary</b> — avoid medicinal doses during pregnancy.</div>
+    </div>
+
+    <div class="safety-card caution">
+      <div class="safety-hd">⚠️ Check Before Adding</div>
+      <div class="safety-body"><b>St. John's Wort</b> — significant drug interactions (birth control, SSRIs, blood thinners). Never use alongside prescription medications without consulting your doctor. Not for kids.</div>
+    </div>
+
+    <div class="safety-card avoid">
+      <div class="safety-hd">🚫 Research Before Use</div>
+      <div class="safety-body"><b>Valerian, Comfrey, Pennyroyal</b> — not starter herbs. Each has specific risks, especially for children or pregnancy. Add only after thorough research or guidance from a trained herbalist.</div>
+    </div>
+
+    <div class="safety-card ok">
+      <div class="safety-hd">📚 Learning Resources</div>
+      <div class="safety-body"><b>Rosemary Gladstar's "Medicinal Herbs: A Beginner's Guide"</b> — the best starting book. <b>Mountain Rose Herbs blog</b> — free, vetted herb info. <b>American Herbalists Guild</b> — find a local practitioner.</div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /apothecary-pane -->
 
 </body>
 </html>
