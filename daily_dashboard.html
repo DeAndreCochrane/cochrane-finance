@@ -92,6 +92,13 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 .kpi .val{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .kpi.gr .val{color:var(--green)}.kpi.rd .val{color:var(--red)}.kpi.am .val{color:var(--amber)}.kpi.bl .val{color:var(--accent)}.kpi.pp .val{color:#7c3aed}
 .kpi .sm{font-size:11px;color:var(--muted);margin-top:3px}
+/* Quick Wins done state */
+.action-card.done{opacity:.45;filter:grayscale(.6)}
+.action-card.done .ac-title{text-decoration:line-through}
+.action-card.done .ac-check::before{content:'✓';color:var(--green);font-weight:800}
+.ac-check{width:18px;height:18px;border-radius:5px;border:2px solid var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:12px;margin-right:6px;cursor:pointer;flex-shrink:0;transition:all .2s}
+.action-card:not(.done) .ac-check:hover{border-color:var(--green);background:rgba(5,150,105,.1)}
+
 /* Update Buttons */
 .li-wrap{position:relative;display:flex;flex-direction:column;gap:5px}
 .lb-row{display:flex;gap:5px}
@@ -438,13 +445,51 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   </div>
 </div>
 
+<!-- WHAT CHANGED -->
+<div class="g sec" style="padding:18px 22px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.06));border-left:3px solid #7c3aed">
+  <div class="sh" style="color:#7c3aed;margin-bottom:10px">🔄 WHAT CHANGED · Last Session</div>
+  <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink2)">
+    <div style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--muted);min-width:80px;font-size:10px;font-weight:700;letter-spacing:.8px">MAY 9, 2026</span><span>Amex balance updated to <b>$9,304.91</b> (from credit bureau screenshot)</span></div>
+    <div style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--muted);min-width:80px;font-size:10px;font-weight:700;letter-spacing:.8px">MAY 9, 2026</span><span>Credit scores updated: DeAndre <b>750</b> · Valencia <b>786</b></span></div>
+    <div style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--muted);min-width:80px;font-size:10px;font-weight:700;letter-spacing:.8px">MAY 9, 2026</span><span>Added 📷 Update buttons for NFCU, Amex, CIT, Fidelity, and BofA Mortgage</span></div>
+    <div style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--muted);min-width:80px;font-size:10px;font-weight:700;letter-spacing:.8px">MAY 9, 2026</span><span>Quick Wins moved to top · Amex CLI removed (NFCU Amex closed) · 90-day trend removed</span></div>
+    <div style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--muted);min-width:80px;font-size:10px;font-weight:700;letter-spacing:.8px">MAY 8, 2026</span><span>GitHub Pages live · push_to_github.bat set up for auto-sync</span></div>
+  </div>
+</div>
+
 <!-- ALERTS -->
 <div class="alerts sec">
   <div class="al g red"><span class="ico">🚨</span><div><b>Emergency Fund: $0.25</b> — essentially empty. Target $15K–$20K. Single-income household with 3 kids. This is your highest-risk exposure.</div></div>
   <div class="al g red"><span class="ico">🚨</span><div><b>Bills due TODAY (May 8):</b> AT&amp;T Internet $104.14</div></div>
+    <div class="al g red"><span class="ico">🚨</span><div><b>Chase Marriott ···3558 — Autopay is OFF.</b> Last payment Oct 2025. Min $40 due Jun 5. Set up autopay now to avoid late fee + credit score hit.</div></div>
   <div class="al g amber"><span class="ico">⚠️</span><div><b>Amex $9,304.91 at 18% APR</b> — accruing ~$4.59/day in interest. Priority #1 debt. Min due $0.00 by 2026-05-16.</div></div>
   <div class="al g amber"><span class="ico">⚠️</span><div><b>Allstate (Auto):</b> Auto only — confirm if Home is separate.</div></div>
   <div class="al g amber"><span class="ico">⚠️</span><div><b>Student Loans ($48,983) — SAVE plan ended.</b> New repayment plan required. Contact Nelnet to enroll in IBR or SAVE successor. Payment resumption timeline unknown — plan budget impact now.</div></div>
+</div>
+
+<!-- ===== QUICK WINS ===== -->
+<div class="cpanel g sec">
+  <h2>⚡ Quick Wins · Real Money, Low Effort</h2>
+  <div class="desc">Each takes &lt; 30 minutes. Stack them — total impact is meaningful.</div>
+  <div class="action-grid">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card optimize">
+      <div class="ac-hd"><span class="ac-emo">🚗</span><div class="ac-title">Vehicle Loan Refi Check</div><span class="ac-impact green">~$1-3K saved</span></div>
+      <div class="ac-detail">$20,351 @ 9% is high. NFCU may quote 6-7% on a refi for a member with 750 score + clean payment history. Even a 2-pt drop saves thousands.</div>
+      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">NFCU → auto loan rates → quote</span></div>
+    </div>
+
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card optimize">
+      <div class="ac-hd"><span class="ac-emo">💳</span><div class="ac-title">Card Rewards Alignment</div><span class="ac-impact green">~$300-500/yr</span></div>
+      <div class="ac-detail">Bilt for rent ✓. Check: groceries (Amex Blue Cash Preferred = 6%), gas (Costco Visa = 4%), dining. Right card on right purchase = free money.</div>
+      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Audit last 30 days, set defaults</span></div>
+    </div>
+
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card optimize">
+      <div class="ac-hd"><span class="ac-emo">📋</span><div class="ac-title">W-4 Withholding Check</div><span class="ac-impact green">$50-200/mo</span></div>
+      <div class="ac-detail">Roth 401K = no pre-tax shelter. Likely taking standard deduction. If you're getting a fat refund, you're loaning the IRS interest-free. Free cash flow now.</div>
+      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">IRS withholding estimator → adjust W-4</span></div>
+    </div>
+  </div>
 </div>
 
 <!-- INSTITUTION QUICK LINKS -->
@@ -453,22 +498,22 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   <div class="lg">
     <div class="li-wrap">
       <div class="lb-row"><a class="lb" href="https://www.navyfederal.org" target="_blank"><span class="lo nfcu">NF</span>NFCU</a></div>
-      <button class="upd-btn" onclick="sendPrompt('Navigate to navyfederal.org and screenshot my NFCU account balances. Update these on my dashboard: Billing Checking ···8332, Surplus Savings ···9330, Emergency Fund savings, and Vehicle Loan ···9610 balance.')">📷 Update NFCU</button>
+      <button class="upd-btn" onclick="doUpdate('Navigate to navyfederal.org and screenshot my NFCU account balances. Update these on my dashboard: Billing Checking ···8332, Surplus Savings ···9330, Emergency Fund savings, and Vehicle Loan ···9610 balance.')">📷 Update NFCU</button>
     </div>
     <div class="li-wrap">
       <div class="lb-row"><a class="lb" href="https://www.americanexpress.com" target="_blank"><span class="lo amex">AX</span>Amex</a></div>
-      <button class="upd-btn" onclick="sendPrompt('Navigate to americanexpress.com and screenshot my Amex More Rewards card ···3428 — capture the current balance and minimum payment due. Update the Amex KPI and debt tracker on my dashboard.')">📷 Update Amex</button>
+      <button class="upd-btn" onclick="doUpdate('Navigate to americanexpress.com and screenshot my Amex More Rewards card ···3428 — capture the current balance and minimum payment due. Update the Amex KPI and debt tracker on my dashboard.')">📷 Update Amex</button>
     </div>
     <a class="lb" href="https://www.chase.com" target="_blank"><span class="lo chase">CH</span>Chase</a>
     <a class="lb" href="https://www.wellsfargo.com" target="_blank"><span class="lo wells">WF</span>Wells Fargo</a>
     <a class="lb" href="https://www.biltrewards.com" target="_blank"><span class="lo bilt">BR</span>Bilt</a>
     <div class="li-wrap">
       <div class="lb-row"><a class="lb" href="https://bankwithcit.com" target="_blank"><span class="lo cit">CIT</span>CIT HYSA</a></div>
-      <button class="upd-btn" onclick="sendPrompt('Navigate to bankwithcit.com and screenshot my CIT HYSA account balance (···5948). Update the CIT HYSA KPI on my dashboard with the current balance.')">📷 Update CIT</button>
+      <button class="upd-btn" onclick="doUpdate('Navigate to bankwithcit.com and screenshot my CIT HYSA account balance (···5948). Update the CIT HYSA KPI on my dashboard with the current balance.')">📷 Update CIT</button>
     </div>
     <div class="li-wrap">
       <div class="lb-row"><a class="lb" href="https://nb.fidelity.com" target="_blank"><span class="lo fid">FD</span>Fidelity</a></div>
-      <button class="upd-btn" onclick="sendPrompt('Navigate to nb.fidelity.com and screenshot my Fidelity account total balance to update the Investments KPI on my dashboard.')">📷 Update Fidelity</button>
+      <button class="upd-btn" onclick="doUpdate('Navigate to nb.fidelity.com and screenshot my Fidelity account total balance to update the Investments KPI on my dashboard.')">📷 Update Fidelity</button>
     </div>
     <a class="lb" href="https://investor.vanguard.com" target="_blank"><span class="lo van">VG</span>Vanguard</a>
     <a class="lb" href="https://myhr.microsoft.com" target="_blank"><span class="lo ms">MS</span>MS Benefits</a>
@@ -508,16 +553,61 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 
 <!-- KPIs -->
 <div class="kpi-g sec">
-  <div class="kpi g gr"><button class="kpi-upd" onclick="sendPrompt('Navigate to navyfederal.org and screenshot my NFCU Billing Checking ···8332 available balance to update Cash Available on my dashboard.')">📷</button><div class="lbl">Cash Available</div><div class="val">$1,434.07</div><div class="sm">Billing Acct ···8332</div></div>
-  <div class="kpi g pp"><button class="kpi-upd" onclick="sendPrompt('Navigate to bankwithcit.com and screenshot my CIT HYSA balance (···5948) to update the CIT HYSA KPI on my dashboard.')">📷</button><div class="lbl">⭐ CIT HYSA</div><div class="val">$10,143.84</div><div class="sm">···5948 · +$680/pay sweep</div></div>
+  <div class="kpi g gr"><button class="kpi-upd" onclick="doUpdate('Navigate to navyfederal.org and screenshot my NFCU Billing Checking ···8332 available balance to update Cash Available on my dashboard.')">📷</button><div class="lbl">Cash Available</div><div class="val">$1,434.07</div><div class="sm">Billing Acct ···8332</div></div>
+  <div class="kpi g pp"><button class="kpi-upd" onclick="doUpdate('Navigate to bankwithcit.com and screenshot my CIT HYSA balance (···5948) to update the CIT HYSA KPI on my dashboard.')">📷</button><div class="lbl">⭐ CIT HYSA</div><div class="val">$10,143.84</div><div class="sm">···5948 · +$680/pay sweep</div></div>
   <div class="kpi g bl"><div class="lbl">Investments</div><div class="val">$26,139.15</div><div class="sm">401K · IRA · Brokerage · Equity</div></div>
-  <div class="kpi g rd"><button class="kpi-upd" onclick="sendPrompt('Navigate to americanexpress.com and screenshot my Amex More Rewards ···3428 balance to update the Amex Balance KPI on my dashboard.')">📷</button><div class="lbl">Amex Balance</div><div class="val">$9,304.91</div><div class="sm">18% APR · Priority #1</div></div>
-  <div class="kpi g am"><div class="lbl">Net Worth</div><div class="val">−$22,133.76</div><div class="sm">incl. home equity</div></div>
+  <div class="kpi g rd"><button class="kpi-upd" onclick="doUpdate('Navigate to americanexpress.com and screenshot my Amex More Rewards ···3428 balance to update the Amex Balance KPI on my dashboard.')">📷</button><div class="lbl">Amex Balance</div><div class="val">$9,304.91</div><div class="sm">18% APR · Priority #1</div></div>
+  <div class="kpi g am"><div class="lbl">Net Worth</div><div class="val">−$24,429.82</div><div class="sm">incl. home equity</div></div>
+</div>
+
+<!-- CALENDAR -->
+<div class="g sec" style="padding:20px 22px">
+  <div class="sh">📅 Important Calendar Events · Gmail Calendar</div>
+  <div class="cal-l">
+    <div class="ce"><div class="cd"><div class="dy">8</div><div class="mo">May</div></div><div class="ci"><div class="tl">AT&amp;T Internet auto-draft</div><div class="tm">Today · $104.14</div></div><span class="ct bil">Bills</span></div>
+    <div class="ce"><div class="cd"><div class="dy">9</div><div class="mo">May</div></div><div class="ci"><div class="tl">GA Gas + NW Mutual</div><div class="tm">Tomorrow · $128.90 combined</div></div><span class="ct bil">Bills</span></div>
+    <div class="ce"><div class="cd"><div class="dy">19</div><div class="mo">May</div></div><div class="ci"><div class="tl">Payday — Microsoft</div><div class="tm">$1,948.09 → Bill Acct · +$680 → CIT HYSA</div></div><span class="ct pd">Payday</span></div>
+    <div class="ce"><div class="cd"><div class="dy">25</div><div class="mo">Jun</div></div><div class="ci"><div class="tl">NFCU Vehicle Loan due</div><div class="tm">$449.81 monthly</div></div><span class="ct bil">Bills</span></div>
+    <div class="ce" style="background:rgba(252,231,243,.4);border-color:rgba(219,39,119,.25)"><div class="cd"><div class="dy">—</div><div class="mo">TBD</div></div><div class="ci"><div class="tl">Pop Shelf trip with Valencia 💖</div><div class="tm">Saturday after surplus &gt; $200</div></div><span class="ct fam">Family</span></div>
+    <div class="ce" style="background:rgba(219,234,254,.4);border-color:rgba(37,99,235,.25)"><div class="cd"><div class="dy">—</div><div class="mo">TBD</div></div><div class="ci"><div class="tl">Kids' computer purchase</div><div class="tm">Target: back-to-school sale</div></div><span class="ct kid">Kids</span></div>
+  </div>
+</div>
+
+<!-- BALANCES + BILLS -->
+<div class="two sec">
+  <div class="pan g">
+    <h2>NFCU Account Balances</h2>
+    <div class="stitle">Checking · $1,507.39</div>
+    <div class="ar"><div><div class="an">Billing Acct <span class="badge bills">bills</span></div><div class="am">···8332</div></div><div class="av">$1,434.07</div></div>
+    <div class="ar"><div><div class="an">Daily Spending</div><div class="am">···8687</div></div><div class="av am">$64.06</div></div>
+    <div class="ar"><div><div class="an">Personal Acct</div><div class="am">···8768</div></div><div class="av rd">$9.20</div></div>
+    <div class="ar"><div><div class="an">Wife's Spending</div><div class="am">···9871</div></div><div class="av rd">$0.06</div></div>
+    <div class="stitle">Savings · $12,415.13</div>
+    <div class="ar"><div><div class="an">NFCU Surplus</div><div class="am">···9330</div></div><div class="av">$539.84</div></div>
+    <div class="ar"><div><div class="an">Emergency Fund <span class="badge warn">low</span></div><div class="am">···0012 · target $15,000</div></div><div class="av rd">$0.25</div></div>
+    <div class="ar"><div><div class="an">CIT HYSA <span class="badge route">+$680/pay</span></div><div class="am">···5948</div></div><div class="av">$10,143.84</div></div>
+    <div class="ar"><div><div class="an">Kids — Esme</div><div class="am">···6660</div></div><div class="av">$535.40</div></div>
+    <div class="ar"><div><div class="an">Kids — Violette</div><div class="am">···9156</div></div><div class="av">$660.40</div></div>
+    <div class="ar"><div><div class="an">Kids — Judah</div><div class="am">···2409</div></div><div class="av">$535.40</div></div>
+    <div class="rc"><span style="font-size:18px">🔀</span><div><b>Payday routing May 19:</b> $1,948.09 → Bill Acct ···8332 <i>plus</i> <b>$680 → CIT HYSA ···5948</b> (additional sweep). CIT projected ~$10,823.84.</div></div>
+  </div>
+  <div class="pan g">
+    <h2>Bills Due · Now → May 19</h2>
+    <div class="br"><span class="bs now"></span><div class="bn">AT&amp;T Internet</div><div class="bd">May 8</div><div class="ba">$104.14</div></div>
+    <div class="br"><span class="bs soon"></span><div class="bn">Georgia Natural Gas</div><div class="bd">May 9</div><div class="ba">$98.87</div></div>
+    <div class="br"><span class="bs soon"></span><div class="bn">Northwestern Mutual</div><div class="bd">May 9</div><div class="ba">$30.03</div></div>
+    <div class="br"><span class="bs soon"></span><div class="bn">Henry County Water</div><div class="bd">May 10</div><div class="ba">$42.00</div></div>
+    <div class="br"><span class="bs soon"></span><div class="bn">AT&amp;T Wireless</div><div class="bd">May 10</div><div class="ba">$74.46</div></div>
+    <div class="br"><span class="bs later"></span><div class="bn">Allstate (Supplemental)</div><div class="bd">May 13</div><div class="ba">$6.08</div></div>
+    <div class="br"><span class="bs later"></span><div class="bn">Bilt Card</div><div class="bd">May 17</div><div class="ba">$11.99</div></div>
+    <div class="br"><span class="bs later"></span><div class="bn">Chase Marriott (min payment)</div><div class="bd">Jun 5</div><div class="ba">$40.00</div></div>
+    <div class="total-row"><span>Total drafting</span><span>$407.57</span></div>
+  </div>
 </div>
 
 <!-- ===== MORTGAGE + ESCROW TRACKER ===== -->
 <div class="pan g sec">
-  <h2>🏠 MORTGAGE + ESCROW · BofA ···1381 · Henry County GA<button class="sec-upd" onclick="sendPrompt('Navigate to bankofamerica.com and screenshot my mortgage account ···1381 — capture principal balance, escrow balance, next payment amount, and due date to update the Mortgage section of my dashboard.')">📷 Update</button></h2>
+  <h2>🏠 MORTGAGE + ESCROW · BofA ···1381 · Henry County GA<button class="sec-upd" onclick="doUpdate('Navigate to bankofamerica.com and screenshot my mortgage account ···1381 — capture principal balance, escrow balance, next payment amount, and due date to update the Mortgage section of my dashboard.')">📷 Update</button></h2>
 
   <!-- KPI row -->
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
@@ -649,13 +739,6 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   <div style="margin-top:10px;font-size:12px;color:var(--ink2);font-style:italic">💡 Based on current surplus of $545.88/pay-cycle, suggested weekly amount: <b>$50/week</b> once Amex payments stabilize.</div>
 </div>
 
-<!-- ===== 6. NET WORTH TRENDLINE ===== -->
-<div class="cpanel g sec">
-  <h2>📉 Net Worth · 90-Day Trend</h2>
-  <div class="desc">Daily snapshots. Even when negative, the slope matters most. Today: <b style="color:var(--amber)">−$20,877.43</b></div>
-  <div class="chart-wrap" style="height:220px"><canvas id="netWorth"></canvas></div>
-</div>
-
 <!-- ===== 4. SPENDING CATEGORIZATION ===== -->
 <div class="two sec">
   <div class="cpanel g">
@@ -719,50 +802,6 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   </div>
 </div>
 
-<!-- CALENDAR -->
-<div class="g sec" style="padding:20px 22px">
-  <div class="sh">📅 Important Calendar Events · Gmail Calendar</div>
-  <div class="cal-l">
-    <div class="ce"><div class="cd"><div class="dy">8</div><div class="mo">May</div></div><div class="ci"><div class="tl">AT&amp;T Internet auto-draft</div><div class="tm">Today · $104.14</div></div><span class="ct bil">Bills</span></div>
-    <div class="ce"><div class="cd"><div class="dy">9</div><div class="mo">May</div></div><div class="ci"><div class="tl">GA Gas + NW Mutual</div><div class="tm">Tomorrow · $128.90 combined</div></div><span class="ct bil">Bills</span></div>
-    <div class="ce"><div class="cd"><div class="dy">19</div><div class="mo">May</div></div><div class="ci"><div class="tl">Payday — Microsoft</div><div class="tm">$1,948.09 → Bill Acct · +$680 → CIT HYSA</div></div><span class="ct pd">Payday</span></div>
-    <div class="ce"><div class="cd"><div class="dy">25</div><div class="mo">Jun</div></div><div class="ci"><div class="tl">NFCU Vehicle Loan due</div><div class="tm">$449.81 monthly</div></div><span class="ct bil">Bills</span></div>
-    <div class="ce" style="background:rgba(252,231,243,.4);border-color:rgba(219,39,119,.25)"><div class="cd"><div class="dy">—</div><div class="mo">TBD</div></div><div class="ci"><div class="tl">Pop Shelf trip with Valencia 💖</div><div class="tm">Saturday after surplus &gt; $200</div></div><span class="ct fam">Family</span></div>
-    <div class="ce" style="background:rgba(219,234,254,.4);border-color:rgba(37,99,235,.25)"><div class="cd"><div class="dy">—</div><div class="mo">TBD</div></div><div class="ci"><div class="tl">Kids' computer purchase</div><div class="tm">Target: back-to-school sale</div></div><span class="ct kid">Kids</span></div>
-  </div>
-</div>
-
-<!-- BALANCES + BILLS -->
-<div class="two sec">
-  <div class="pan g">
-    <h2>NFCU Account Balances</h2>
-    <div class="stitle">Checking · $1,507.39</div>
-    <div class="ar"><div><div class="an">Billing Acct <span class="badge bills">bills</span></div><div class="am">···8332</div></div><div class="av">$1,434.07</div></div>
-    <div class="ar"><div><div class="an">Daily Spending</div><div class="am">···8687</div></div><div class="av am">$64.06</div></div>
-    <div class="ar"><div><div class="an">Personal Acct</div><div class="am">···8768</div></div><div class="av rd">$9.20</div></div>
-    <div class="ar"><div><div class="an">Wife's Spending</div><div class="am">···9871</div></div><div class="av rd">$0.06</div></div>
-    <div class="stitle">Savings · $12,415.13</div>
-    <div class="ar"><div><div class="an">NFCU Surplus</div><div class="am">···9330</div></div><div class="av">$539.84</div></div>
-    <div class="ar"><div><div class="an">Emergency Fund <span class="badge warn">low</span></div><div class="am">···0012 · target $15,000</div></div><div class="av rd">$0.25</div></div>
-    <div class="ar"><div><div class="an">CIT HYSA <span class="badge route">+$680/pay</span></div><div class="am">···5948</div></div><div class="av">$10,143.84</div></div>
-    <div class="ar"><div><div class="an">Kids — Esme</div><div class="am">···6660</div></div><div class="av">$535.40</div></div>
-    <div class="ar"><div><div class="an">Kids — Violette</div><div class="am">···9156</div></div><div class="av">$660.40</div></div>
-    <div class="ar"><div><div class="an">Kids — Judah</div><div class="am">···2409</div></div><div class="av">$535.40</div></div>
-    <div class="rc"><span style="font-size:18px">🔀</span><div><b>Payday routing May 19:</b> $1,948.09 → Bill Acct ···8332 <i>plus</i> <b>$680 → CIT HYSA ···5948</b> (additional sweep). CIT projected ~$10,823.84.</div></div>
-  </div>
-  <div class="pan g">
-    <h2>Bills Due · Now → May 19</h2>
-    <div class="br"><span class="bs now"></span><div class="bn">AT&amp;T Internet</div><div class="bd">May 8</div><div class="ba">$104.14</div></div>
-    <div class="br"><span class="bs soon"></span><div class="bn">Georgia Natural Gas</div><div class="bd">May 9</div><div class="ba">$98.87</div></div>
-    <div class="br"><span class="bs soon"></span><div class="bn">Northwestern Mutual</div><div class="bd">May 9</div><div class="ba">$30.03</div></div>
-    <div class="br"><span class="bs soon"></span><div class="bn">Henry County Water</div><div class="bd">May 10</div><div class="ba">$42.00</div></div>
-    <div class="br"><span class="bs soon"></span><div class="bn">AT&amp;T Wireless</div><div class="bd">May 10</div><div class="ba">$74.46</div></div>
-    <div class="br"><span class="bs later"></span><div class="bn">Allstate (Supplemental)</div><div class="bd">May 13</div><div class="ba">$6.08</div></div>
-    <div class="br"><span class="bs later"></span><div class="bn">Bilt Card</div><div class="bd">May 17</div><div class="ba">$11.99</div></div>
-    <div class="total-row"><span>Total drafting</span><span>$367.57</span></div>
-  </div>
-</div>
-
 <!-- ===== 8. FAMILY FUN ENVELOPE ===== -->
 <div class="env g sec">
   <h2 style="margin:0 0 4px;font-size:16px;font-weight:800;color:var(--ink)">💖 Family Fun Envelope</h2>
@@ -807,6 +846,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   <h2>Debt Paydown Tracker</h2>
   <div class="debt-g">
     <div class="debt ax"><div class="hd"><div class="nm">More Rewards Amex ···3428</div><div class="bl">$9,304.91</div></div><div class="mt">18% APR · Priority #1 · ~$4.59/day interest</div><div class="dbar"><div class="fl"></div></div><div class="pr"><span>$9,304.91 remaining</span><span>Started $9,735.00 · 4% paid</span></div></div>
+        <div class="debt ch"><div class="hd"><div class="nm">Chase Marriott Boundless ···3558</div><div class="bl">$2,296.06</div></div><div class="mt">26.49% APR · Min $40 due Jun 5 · <b style="color:var(--red)">⚠️ Autopay OFF</b></div><div class="dbar"><div class="fl" style="width:8.5%"></div></div><div class="pr"><span>$2,296.06 remaining</span><span>Limit $27,000 · 8.5% utilized</span></div></div>
     <div class="debt au"><div class="hd"><div class="nm">NFCU Vehicle Loan ···9610</div><div class="bl">$20,351.52</div></div><div class="mt">9% APR · $449.81/mo · Next due Jun 25</div><div class="dbar"><div class="fl"></div></div><div class="pr"><span>$20,351.52 remaining</span><span>Started $21,233.00 · 4% paid</span></div></div>
   </div>
 </div>
@@ -864,12 +904,12 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   <div class="desc">Weekly check from NFCU / Experian. Score shown is estimated — verify with bureau links below.</div>
   <div class="credit-wrap">
     <div class="score-circle">
-      <div class="score-inner"><div class="num">698</div><div class="lbl">Good</div></div>
+      <div class="score-inner"><div class="num">750</div><div class="lbl">Good</div></div>
     </div>
     <div>
       <div style="font-size:13px;line-height:1.7;margin-bottom:12px">
         <b>Score range:</b> Good (670–739)<br>
-        <b>Trend:</b> ↓ 12 pts from 710 (90 days ago) — Amex utilization at 62% is dragging it down<br>
+        <b>Trend:</b> ↑ 52 pts from 698 — Amex utilization improvement + on-time payments. Valencia: <b style="color:var(--green)">786</b> (Excellent).<br>
         <b>Top factor:</b> Credit utilization (62% — target &lt;30%)<br>
         <b>Positive:</b> 100% on-time payments, account age solid
       </div>
@@ -935,7 +975,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
       <div class="ac-action"><span class="ac-check ac-check-done" style="background:#059669;border-color:#059669;position:relative;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:10px">✓</span><span class="ac-todo" style="color:#059669">Statement synced 2026-05-08</span></div>
     </div>
 
-    <div class="action-card visibility">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card visibility">
       <div class="ac-hd"><span class="ac-emo">👶</span><div class="ac-title">Childcare</div><span class="ac-impact">3 kids</span></div>
       <div class="ac-fields">
         <div class="ac-row"><span class="lbl">Daycare/aftercare:</span><b class="ph">[$/mo]</b></div>
@@ -946,7 +986,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
       <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Add monthly + annual</span></div>
     </div>
 
-    <div class="action-card visibility">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card visibility">
       <div class="ac-hd"><span class="ac-emo">🏥</span><div class="ac-title">Healthcare Costs</div><span class="ac-impact">MS plan</span></div>
       <div class="ac-fields">
         <div class="ac-row"><span class="lbl">Family deductible:</span><b class="ph">[$ amount]</b></div>
@@ -958,7 +998,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
       <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Check myhr.microsoft.com</span></div>
     </div>
 
-    <div class="action-card visibility">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card visibility">
       <div class="ac-hd"><span class="ac-emo">🪣</span><div class="ac-title">Sinking Funds</div><span class="ac-impact">Lumpy expenses</span></div>
       <div class="ac-fields">
         <div class="ac-row"><span class="lbl">Christmas/gifts:</span><b class="ph">[Target $]</b></div>
@@ -971,7 +1011,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
     </div>
 
 
-    <div class="action-card risk">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card risk">
       <div class="ac-hd"><span class="ac-emo">📋</span><div class="ac-title">G-4 Withholding Review</div><span class="ac-impact amber">⚠️ Action needed</span></div>
       <div class="ac-fields">
         <div class="ac-row"><span class="lbl">Form on file:</span><b>GA G-4 (signed 03/12/2025)</b></div>
@@ -983,7 +1023,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
       <div class="ac-detail">GA state income tax is a flat 5.39% (2025 rate, dropping toward 4.99% by 2029). With 4 allowances on MFJ, verify you're not giving GA a free loan. Run the IRS + GA estimator to confirm optimal allowances.</div>
       <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Review at dor.georgia.gov · update with payroll if needed</span></div>
     </div>
-    <div class="action-card visibility">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card visibility">
       <div class="ac-hd"><span class="ac-emo">📅</span><div class="ac-title">Annual Expenses</div><span class="ac-impact">Off-monthly</span></div>
       <div class="ac-fields">
         <div class="ac-row"><span class="lbl">Amazon Prime:</span><b>$139/yr</b></div>
@@ -1014,43 +1054,12 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
   </div>
 </div>
 
-<!-- ===== QUICK WINS ===== -->
-<div class="cpanel g sec">
-  <h2>⚡ Quick Wins · Real Money, Low Effort</h2>
-  <div class="desc">Each takes &lt; 30 minutes. Stack them — total impact is meaningful.</div>
-  <div class="action-grid">
-    <div class="action-card optimize">
-      <div class="ac-hd"><span class="ac-emo">📈</span><div class="ac-title">Amex Credit Limit Increase</div><span class="ac-impact green">+15-25 pts</span></div>
-      <div class="ac-detail">62% utilization is dragging your score. A CLI lowers utilization without paying down. Amex often does <b>soft pulls</b> for existing cardholders — zero score risk to ask.</div>
-      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Login → "Increase credit limit"</span></div>
-    </div>
-
-    <div class="action-card optimize">
-      <div class="ac-hd"><span class="ac-emo">🚗</span><div class="ac-title">Vehicle Loan Refi Check</div><span class="ac-impact green">~$1-3K saved</span></div>
-      <div class="ac-detail">$20,351 @ 9% is high. NFCU may quote 6-7% on a refi for a member with 698 score + clean payment history. Even a 2-pt drop saves thousands.</div>
-      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">NFCU → auto loan rates → quote</span></div>
-    </div>
-
-    <div class="action-card optimize">
-      <div class="ac-hd"><span class="ac-emo">💳</span><div class="ac-title">Card Rewards Alignment</div><span class="ac-impact green">~$300-500/yr</span></div>
-      <div class="ac-detail">Bilt for rent ✓. Check: groceries (Amex Blue Cash Preferred = 6%), gas (Costco Visa = 4%), dining. Right card on right purchase = free money.</div>
-      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Audit last 30 days, set defaults</span></div>
-    </div>
-
-    <div class="action-card optimize">
-      <div class="ac-hd"><span class="ac-emo">📋</span><div class="ac-title">W-4 Withholding Check</div><span class="ac-impact green">$50-200/mo</span></div>
-      <div class="ac-detail">Roth 401K = no pre-tax shelter. Likely taking standard deduction. If you're getting a fat refund, you're loaning the IRS interest-free. Free cash flow now.</div>
-      <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">IRS withholding estimator → adjust W-4</span></div>
-    </div>
-  </div>
-</div>
-
 <!-- ===== FAMILY OPS ===== -->
 <div class="cpanel g sec">
   <h2>👫 Family Ops · You + Valencia</h2>
   <div class="desc">A dashboard that only you see is half the value. Build the rituals so you're rowing together.</div>
   <div class="action-grid">
-    <div class="action-card family">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card family">
       <div class="ac-hd"><span class="ac-emo">☕</span><div class="ac-title">Weekly Money 1:1</div><span class="ac-impact pink">15 min/wk</span></div>
       <div class="ac-detail">Sit with Valencia, run through balance, what's hitting next, anything weird. Sunday night or Saturday morning works for most. <b>Prevents 90% of money friction.</b></div>
       <div class="ac-fields">
@@ -1059,7 +1068,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
       <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Add to shared calendar</span></div>
     </div>
 
-    <div class="action-card family">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card family">
       <div class="ac-hd"><span class="ac-emo">📆</span><div class="ac-title">Annual Review Date</div><span class="ac-impact pink">Once/yr</span></div>
       <div class="ac-detail">Pick a fixed date you'll never forget. Birthday week, New Year, or tax day. Walk the whole dashboard end-to-end with Valencia. Goals, gaps, big-picture moves.</div>
       <div class="ac-fields">
@@ -1069,7 +1078,7 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
       <div class="ac-action"><span class="ac-check"></span><span class="ac-todo">Set annual recurring event</span></div>
     </div>
 
-    <div class="action-card family">
+    <div onclick="actionQW(this)" style="cursor:pointer" class="action-card family">
       <div class="ac-hd"><span class="ac-emo">🧠</span><div class="ac-title">Mental Load Split</div><span class="ac-impact pink">Sustainable</span></div>
       <div class="ac-detail">You're carrying all of this. What does Valencia want to own? Maybe she runs the Family Fun envelope, kids' savings, or sinking funds. Anything she owns = one less thing on you.</div>
       <div class="ac-fields">
@@ -1467,27 +1476,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   });
 })();
 
-// ===== 6. NET WORTH TRENDLINE =====
-(function(){
-  const ctx=document.getElementById('netWorth').getContext('2d');
-  const labels=[];const data=[];
-  let nw=-23800;
-  for(let i=90;i>=0;i--){
-    const d=new Date(2026,4,8);d.setDate(d.getDate()-i);
-    labels.push((d.getMonth()+1)+'/'+d.getDate());
-    nw+=Math.random()*80-25;
-    data.push(Math.round(nw));
-  }
-  new Chart(ctx,{type:'line',data:{labels,datasets:[{
-    label:'Net Worth',data,borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,.08)',
-    fill:true,tension:.4,pointRadius:0,borderWidth:2
-  },{label:'Zero',data:Array(data.length).fill(0),borderColor:'rgba(107,120,149,.3)',borderDash:[4,4],pointRadius:0,fill:false}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:true,position:'top',labels:{font:{size:11}}}},
-      scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(107,120,149,.1)'}},x:{ticks:{maxTicksLimit:12,font:{size:10}},grid:{display:false}}}
-    }
-  });
-})();
+
 
 // ===== 4. SPENDING CATEGORIZATION =====
 (function(){
@@ -1521,7 +1510,7 @@ document.querySelectorAll('.tab').forEach(t=>{
 (function(){
   const ctx=document.getElementById('creditChart').getContext('2d');
   const labels=['Feb 7','Feb 14','Feb 21','Feb 28','Mar 7','Mar 14','Mar 21','Mar 28','Apr 4','Apr 11','Apr 18','Apr 25','May 2','May 8'];
-  const data=[710,708,712,707,705,703,700,702,698,700,696,698,697,698];
+  const data=[710,708,712,707,705,703,700,702,698,700,716,730,742,750];
   new Chart(ctx,{type:'line',data:{labels,datasets:[{
     label:'Credit Score',data,borderColor:'#059669',backgroundColor:'rgba(5,150,105,.08)',
     fill:true,tension:.3,pointRadius:3,borderWidth:2,
@@ -1534,5 +1523,33 @@ document.querySelectorAll('.tab').forEach(t=>{
   });
 })();
 </script>
+
+<script>
+function doUpdate(prompt) {
+  // Try native sendPrompt (Cowork artifact context)
+  if (typeof sendPrompt === 'function') {
+    sendPrompt(prompt);
+    return;
+  }
+  // Fallback: show overlay with copyable text
+  var ov = document.getElementById('upd-overlay');
+  var tx = document.getElementById('upd-text');
+  tx.value = prompt;
+  ov.style.display = 'flex';
+  tx.select();
+  try { navigator.clipboard.writeText(prompt); } catch(e) {}
+}
+</script>
+<div id="upd-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#1e1e2e;border:1px solid rgba(99,102,241,.4);border-radius:16px;padding:24px;max-width:520px;width:100%">
+    <div style="font-size:13px;font-weight:700;color:#a78bfa;margin-bottom:10px;letter-spacing:.5px">📋 PASTE THIS INTO CLAUDE CHAT</div>
+    <textarea id="upd-text" readonly style="width:100%;height:110px;background:#0f0f1a;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#e2e8f0;font-size:12px;padding:10px;resize:none;font-family:inherit"></textarea>
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <button onclick="var t=document.getElementById('upd-text');t.select();try{navigator.clipboard.writeText(t.value);}catch(e){}this.textContent='✓ Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="flex:1;padding:10px;background:linear-gradient(135deg,#6366f1,#7c3aed);border:none;border-radius:9px;color:#fff;font-weight:700;font-size:13px;cursor:pointer">Copy</button>
+      <button onclick="document.getElementById('upd-overlay').style.display='none'" style="padding:10px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:9px;color:#94a3b8;font-size:13px;cursor:pointer">Close</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
