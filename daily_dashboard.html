@@ -1671,42 +1671,64 @@ function doUpdate(prompt) {
   }
 })();
 
-// ── Weather (Open-Meteo, no API key needed) ───────────────────────────────────
+// ── Weather (weather.gov NWS API — free, no key required) ────────────────────
 (function() {
   const LAT = 33.4473, LON = -84.1477;
-  const WX_CODES = {
-    0:'Clear Sky',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',
-    45:'Foggy',48:'Icy Fog',51:'Light Drizzle',53:'Drizzle',55:'Heavy Drizzle',
-    61:'Light Rain',63:'Rain',65:'Heavy Rain',71:'Light Snow',73:'Snow',75:'Heavy Snow',
-    80:'Rain Showers',81:'Rain Showers',82:'Heavy Showers',
-    95:'Thunderstorm',96:'Thunderstorm + Hail',99:'Severe Thunderstorm'
-  };
-  const WX_ICONS = {
-    0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
-    51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',
-    71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',
-    95:'⛈️',96:'⛈️',99:'⛈️'
-  };
-  const url = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
-    '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m'+
-    '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max'+
-    '&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FNew_York&forecast_days=1';
-  fetch(url).then(r=>r.json()).then(data=>{
-    const c = data.current, d = data.daily;
-    const code = c.weather_code;
-    document.getElementById('wx-temp').innerHTML = Math.round(c.temperature_2m) + '<span>°F</span>';
-    document.getElementById('wx-desc').textContent = WX_CODES[code] || 'Unknown';
-    document.getElementById('wx-icon').textContent = WX_ICONS[code] || '🌡️';
-    document.getElementById('wx-feel').textContent = 'Feels like ' + Math.round(c.apparent_temperature) + '°F';
-    document.getElementById('wx-high').textContent = 'H: ' + Math.round(d.temperature_2m_max[0]) + '°F';
-    document.getElementById('wx-low').textContent = 'L: ' + Math.round(d.temperature_2m_min[0]) + '°F';
-    document.getElementById('wx-hum').textContent = c.relative_humidity_2m + '%';
-    document.getElementById('wx-wind').textContent = Math.round(c.wind_speed_10m) + ' mph';
-    document.getElementById('wx-rain').textContent = (d.precipitation_probability_max[0] || 0) + '%';
-  }).catch(()=>{
-    document.getElementById('wx-desc').textContent = 'Weather unavailable';
-    document.getElementById('wx-icon').textContent = '🌡️';
-  });
+  const HEADERS = { 'User-Agent': 'CochraneFinanceDashboard/1.0 (cochrane.deandre12@gmail.com)' };
+
+  function wxIcon(forecast) {
+    const f = (forecast || '').toLowerCase();
+    if (f.includes('thunder'))          return '⛈️';
+    if (f.includes('snow'))             return '❄️';
+    if (f.includes('fog'))              return '🌫️';
+    if (f.includes('rain') || f.includes('shower') || f.includes('drizzle')) return '🌧️';
+    if (f.includes('mostly sunny') || f.includes('mostly clear'))  return '🌤️';
+    if (f.includes('partly'))           return '⛅';
+    if (f.includes('cloudy') || f.includes('overcast')) return '☁️';
+    if (f.includes('sunny') || f.includes('clear'))     return '☀️';
+    return '🌡️';
+  }
+
+  function windNum(windStr) {
+    // "10 mph" or "10 to 15 mph" → return first number
+    const m = (windStr || '').match(/(\d+)/);
+    return m ? m[1] + ' mph' : windStr || '--';
+  }
+
+  // Step 1 — resolve grid point
+  fetch('https://api.weather.gov/points/' + LAT + ',' + LON, { headers: HEADERS })
+    .then(function(r) { return r.json(); })
+    .then(function(pt) {
+      const props = pt.properties;
+      // Step 2 — fetch hourly (current) + daily (high/low) in parallel
+      return Promise.all([
+        fetch(props.forecastHourly, { headers: HEADERS }).then(function(r){ return r.json(); }),
+        fetch(props.forecast,       { headers: HEADERS }).then(function(r){ return r.json(); })
+      ]);
+    })
+    .then(function(results) {
+      const hourly = results[0], daily = results[1];
+      const cur    = hourly.properties.periods[0];
+      const today  = daily.properties.periods[0];
+      const low    = daily.properties.periods.find(function(p){ return !p.isDaytime; });
+
+      document.getElementById('wx-temp').innerHTML = cur.temperature + '<span>°F</span>';
+      document.getElementById('wx-desc').textContent = cur.shortForecast;
+      document.getElementById('wx-icon').textContent = wxIcon(cur.shortForecast);
+      document.getElementById('wx-feel').textContent = 'Wind: ' + windNum(cur.windSpeed) + ' ' + (cur.windDirection || '');
+      document.getElementById('wx-high').textContent = 'H: ' + today.temperature + '°F';
+      document.getElementById('wx-low').textContent  = 'L: ' + (low ? low.temperature : '--') + '°F';
+      document.getElementById('wx-hum').textContent  = (cur.relativeHumidity && cur.relativeHumidity.value != null ? cur.relativeHumidity.value + '%' : '--');
+      document.getElementById('wx-wind').textContent = windNum(cur.windSpeed);
+      const precip = cur.probabilityOfPrecipitation;
+      document.getElementById('wx-rain').textContent = (precip && precip.value != null ? precip.value + '%' : today.probabilityOfPrecipitation && today.probabilityOfPrecipitation.value != null ? today.probabilityOfPrecipitation.value + '%' : '--');
+    })
+    .catch(function() {
+      var d = document.getElementById('wx-desc');
+      var i = document.getElementById('wx-icon');
+      if (d) d.textContent = 'Visit weather.gov for conditions';
+      if (i) i.textContent = '🌡️';
+    });
 })();
 </script>
 
