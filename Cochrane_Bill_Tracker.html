@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cochrane Family — Bill & Payment Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --glass:rgba(255,255,255,.52);
+  --glass2:rgba(255,255,255,.38);
+  --glass-b:rgba(255,255,255,.62);
+  --glass-dark:linear-gradient(135deg,rgba(37,56,124,.88),rgba(76,53,145,.80));
+  --shadow:0 8px 32px rgba(31,38,135,.17);
+  --ink:#0b1f4d;--ink2:#4a5b85;--muted:#6b7895;
+  --accent:#2563eb;--accent2:#6366f1;--green:#059669;--amber:#d97706;--red:#dc2626;--pink:#db2777;--purple:#7c3aed;--teal:#0d9488;--gold:#b45309;
+  --r:18px;
+  --mono:'SF Mono','Cascadia Code',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-height:100vh;
+  background:radial-gradient(circle at 10% 10%,#c5d4ff 0%,transparent 40%),radial-gradient(circle at 90% 0%,#ffd1e8 0%,transparent 35%),radial-gradient(circle at 80% 90%,#b8e6ff 0%,transparent 40%),radial-gradient(circle at 0% 100%,#d4f7e2 0%,transparent 35%),linear-gradient(135deg,#eef2ff,#f0f9ff);
+  background-attachment:fixed;-webkit-font-smoothing:antialiased}
+.c{max-width:980px;margin:0 auto;padding:24px 20px 60px}
+
+/* Glass primitives */
+.g{background:var(--glass);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:1px solid var(--glass-b);border-radius:var(--r);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.g::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,255,255,.1) 50%,rgba(255,255,255,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.gd{background:var(--glass-dark);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:1px solid rgba(255,255,255,.22);border-radius:var(--r);color:#fff;box-shadow:0 12px 40px rgba(31,38,135,.35);position:relative;overflow:hidden}
+
+.sec{margin-bottom:16px}
+
+/* Header */
+.hdr{padding:22px 26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.hdr .eyebrow{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.hdr h1{font-size:25px;font-weight:900;letter-spacing:-.5px;background:linear-gradient(135deg,#1e3a8a,#6366f1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hdr .sub{color:var(--ink2);font-size:13px;margin-top:3px}
+.hdr-r{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:600}
+.pill.sync{background:rgba(16,185,129,.12);color:#047857;border:1px solid rgba(16,185,129,.3)}
+.pill.sync .dot{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;animation:pulse-dot 2.2s infinite}
+.pill.date{background:rgba(37,99,235,.10);color:var(--accent);border:1px solid rgba(37,99,235,.25)}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+
+/* KPI strip */
+.kpi-g{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{padding:16px;border-top:4px solid;position:relative}
+.kpi.gr{border-top-color:var(--green)}
+.kpi.bl{border-top-color:var(--accent)}
+.kpi.rd{border-top-color:var(--red)}
+.kpi.am{border-top-color:var(--gold)}
+.kpi .lbl{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
+.kpi .val{font-size:22px;font-weight:800;letter-spacing:-.5px;font-family:var(--mono);font-variant-numeric:tabular-nums;line-height:1}
+.kpi.gr .val{color:var(--green)}
+.kpi.rd .val{color:var(--red)}
+.kpi.am .val{color:var(--gold)}
+.kpi.bl .val{color:var(--accent)}
+.kpi .sm{font-size:11px;color:var(--muted);margin-top:5px}
+
+/* Balance strip — always visible across tabs */
+.bal-strip{display:grid;grid-template-columns:1fr 1.4fr 1fr auto;gap:10px;padding:14px 18px;margin-bottom:14px;align-items:center}
+.bal-cell{display:flex;flex-direction:column;gap:3px;min-width:0}
+.bal-cell .lbl{font-size:9.5px;font-weight:700;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.bal-cell .val{font-size:18px;font-weight:800;font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink);letter-spacing:-.3px;line-height:1}
+.bal-cell .sub{font-size:10px;color:var(--muted);font-weight:500}
+.bal-cell.cit{padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(99,102,241,.10),rgba(168,85,247,.10));border:1px solid rgba(99,102,241,.22)}
+.bal-cell.cit .lbl{color:var(--accent2)}
+.bal-cell.cit .val{background:linear-gradient(135deg,#4f46e5,#9333ea);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:20px}
+.bal-cell.cit .badge-mini{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;background:rgba(99,102,241,.18);color:var(--accent2);align-self:flex-start;margin-top:2px}
+.bal-cell.bill .val{color:var(--accent)}
+.bal-cell.dbt .val{color:var(--red);font-size:16px}
+.bal-link{font-size:11px;font-weight:700;color:var(--accent);text-decoration:none;padding:6px 10px;border-radius:8px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.18);cursor:pointer;white-space:nowrap;transition:all .18s;font-family:inherit}
+.bal-link:hover{background:rgba(37,99,235,.15);transform:translateY(-1px)}
+@media(max-width:640px){.bal-strip{grid-template-columns:1fr 1fr;gap:8px;padding:12px 14px}.bal-link{grid-column:span 2;text-align:center;padding:8px}}
+
+/* Progress */
+.prog-wrap{padding:18px 22px}
+.prog-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.prog-title{font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted)}
+.prog-stat{font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.prog-track{height:6px;background:rgba(107,120,149,.15);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal),var(--green));border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1);width:0%}
+@keyframes shimmer{0%{background-position:-300% center}100%{background-position:300% center}}
+.celebration .prog-fill{background:linear-gradient(90deg,#4ade80,#a78bfa,#60a5fa,#fcd34d,#4ade80);background-size:300% auto;animation:shimmer 2.5s linear infinite}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;padding:5px;margin-bottom:18px;background:rgba(255,255,255,.45);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.6);border-radius:14px;box-shadow:var(--shadow)}
+.tab{flex:1;padding:11px 16px;border-radius:10px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:var(--ink2);cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:7px}
+.tab:hover{color:var(--ink);background:rgba(255,255,255,.4)}
+.tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.35)}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;padding:0 6px;background:rgba(255,255,255,.25);border-radius:9px;font-size:10px;font-weight:800}
+.tab.active .tab-count{background:rgba(255,255,255,.35)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* Action bar */
+.action-bar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:10px;border:1px solid rgba(255,255,255,.7);background:rgba(255,255,255,.55);color:var(--ink2);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .18s;backdrop-filter:blur(12px)}
+.btn:hover{background:rgba(255,255,255,.8);color:var(--ink);transform:translateY(-1px)}
+.btn-danger:hover{color:var(--red);border-color:rgba(220,38,38,.3);background:rgba(254,226,226,.5)}
+
+/* Section header */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+.sec-hdr:first-child{margin-top:0}
+.sec-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.sec-pill{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);color:var(--ink2);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+
+/* Bill card */
+.bill-card{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.75);border-radius:13px;padding:14px 16px;margin-bottom:7px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:background .17s,border-color .17s,transform .12s,box-shadow .17s;position:relative;overflow:hidden;backdrop-filter:blur(14px)}
+.bill-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;opacity:0;transition:opacity .2s}
+.bill-card:hover{background:rgba(255,255,255,.78);transform:translateY(-1px);box-shadow:0 6px 16px rgba(31,38,135,.12)}
+.bill-card:active{transform:translateY(0)}
+.bill-card.paid{background:rgba(220,252,231,.45);border-color:rgba(5,150,105,.25)}
+.bill-card.paid::before{background:var(--green);opacity:1}
+.bill-card.overdue-c::before{background:var(--red);opacity:1}
+.bill-card.soon-c::before{background:var(--amber);opacity:1}
+
+/* Checkbox */
+.chk{width:22px;height:22px;border-radius:6px;border:2px solid rgba(107,120,149,.35);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;z-index:1}
+.bill-card.paid .chk{background:var(--green);border-color:var(--green);box-shadow:0 0 10px rgba(5,150,105,.3)}
+.chk-svg{width:11px;height:11px;opacity:0;transform:scale(.3) rotate(-10deg);transition:all .22s cubic-bezier(.34,1.56,.64,1)}
+.bill-card.paid .chk-svg{opacity:1;transform:scale(1) rotate(0)}
+
+/* Ripple */
+.ripple{position:absolute;width:40px;height:40px;background:rgba(5,150,105,.22);border-radius:50%;pointer-events:none;animation:ripple-anim .4s ease-out forwards;z-index:0}
+@keyframes ripple-anim{from{opacity:.5;transform:scale(0)}to{opacity:0;transform:scale(2.8)}}
+
+.bill-info{flex:1;min-width:0}
+.bill-name{font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
+.bill-card.paid .bill-name{text-decoration:line-through;color:var(--muted)}
+.bill-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:4px}
+.due-txt{font-size:11px;color:var(--ink2);font-weight:500}
+
+.badge{display:inline-flex;align-items:center;font-size:9.5px;font-weight:700;letter-spacing:.04em;padding:2.5px 8px;border-radius:20px;white-space:nowrap}
+.b-Housing{background:rgba(139,92,246,.13);color:#7c3aed}
+.b-Utilities{background:rgba(59,130,246,.13);color:#2563eb}
+.b-Insurance{background:rgba(13,148,136,.13);color:#0d9488}
+.b-Debt{background:rgba(244,63,94,.13);color:#be185d}
+.b-Subscriptions{background:rgba(245,158,11,.13);color:#b45309}
+.b-Savings{background:rgba(5,150,105,.13);color:#047857}
+.b-Other{background:rgba(148,163,184,.18);color:#475569}
+
+.s-paid{background:rgba(5,150,105,.13);color:var(--green)}
+.s-overdue{background:rgba(220,38,38,.12);color:var(--red)}
+.s-soon{background:rgba(217,119,6,.13);color:var(--amber)}
+.s-upcoming{background:rgba(148,163,184,.18);color:#475569}
+.s-auto{background:rgba(37,99,235,.12);color:var(--accent)}
+
+.bill-note{font-size:11px;color:var(--muted);font-style:italic;margin-top:4px;line-height:1.45}
+.bill-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.bill-amount{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono);color:var(--ink);transition:color .2s}
+.bill-card.paid .bill-amount{color:var(--muted)}
+
+/* Paychecks */
+.pc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.pc-card{padding:18px 16px;position:relative;overflow:hidden;transition:transform .15s}
+.pc-card:hover{transform:translateY(-1px)}
+.pc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pc-past::before{background:var(--green)}
+.pc-next::before{background:linear-gradient(90deg,var(--accent),var(--teal))}
+.pc-future::before{background:rgba(107,120,149,.35)}
+.pc-next{background:rgba(219,234,254,.55);border-color:rgba(37,99,235,.25)}
+.pc-lbl{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.pc-date{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.pc-amt{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono);line-height:1}
+.pc-past .pc-amt{color:var(--green)}
+.pc-next .pc-amt{color:var(--accent)}
+.pc-future .pc-amt{color:var(--ink2)}
+.pc-cd{font-size:11px;font-weight:600;margin-top:6px}
+.pc-past .pc-cd{color:var(--muted)}
+.pc-next .pc-cd{color:var(--accent)}
+.pc-future .pc-cd{color:var(--muted)}
+
+/* Loan card */
+.loan-card{padding:24px;margin-top:8px;position:relative;overflow:hidden}
+.loan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),rgba(180,83,9,.3))}
+.loan-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:16px}
+.loan-title{font-size:15px;font-weight:800;color:var(--ink)}
+.loan-sub{font-size:12px;color:var(--ink2);margin-top:3px}
+.loan-bal-blk{text-align:right}
+.loan-bal{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono);color:var(--red);line-height:1}
+.loan-bal-lbl{font-size:10px;color:var(--muted);margin-top:4px;font-weight:600}
+.loan-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.loan-stat{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:10px;padding:12px;text-align:center}
+.loan-stat-val{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono);color:var(--ink)}
+.loan-stat-lbl{font-size:10px;color:var(--muted);margin-top:4px;font-weight:600}
+.loan-bar-track{height:7px;background:rgba(107,120,149,.18);border-radius:4px;overflow:hidden}
+.loan-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),#86efac);border-radius:4px}
+.loan-bar-meta{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:var(--ink2);font-weight:600}
+
+/* Snapshot */
+.snap-row{display:flex;align-items:center;gap:14px;padding:13px 16px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.75);border-radius:13px;margin-bottom:7px;backdrop-filter:blur(14px);transition:transform .12s}
+.snap-row:hover{transform:translateY(-1px);background:rgba(255,255,255,.7)}
+.snap-label{flex:1;font-size:13px;font-weight:700;color:var(--ink2)}
+.snap-bar-wrap{flex:2}
+.snap-bar{height:6px;border-radius:3px;opacity:.75}
+.snap-val{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono);min-width:90px;text-align:right;color:var(--ink)}
+.snap-divider{height:1px;background:rgba(107,120,149,.2);margin:10px 0}
+.snap-total .snap-label{font-size:14px;font-weight:800;color:var(--ink)}
+.snap-total .snap-val{color:var(--ink);font-size:16px}
+.snap-buffer .snap-label{color:var(--green)}
+.snap-buffer .snap-val{color:var(--green)}
+
+/* ===== ACCOUNTS PANEL ===== */
+.accounts-pane{padding:4px 0}
+.bal-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.bal-tile{padding:18px 16px;text-align:left;position:relative;overflow:hidden}
+.bal-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.bal-tile.ck::before{background:var(--accent)}
+.bal-tile.sv::before{background:var(--green)}
+.bal-tile.dt::before{background:var(--red)}
+.bal-tile .lbl{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.bal-tile .val{font-size:24px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums;font-family:var(--mono);line-height:1}
+.bal-tile.ck .val{color:var(--accent)}
+.bal-tile.sv .val{color:var(--green)}
+.bal-tile.dt .val{color:var(--red)}
+.bal-tile .sm{font-size:11px;color:var(--muted);margin-top:6px;font-weight:600}
+
+.acct-row{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:11px;margin-bottom:6px;transition:background .16s,transform .12s;backdrop-filter:blur(12px)}
+.acct-row:hover{background:rgba(255,255,255,.72);transform:translateY(-1px)}
+.acct-row.featured{background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.08));border-color:rgba(168,85,247,.25)}
+.acct-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
+.acct-logo{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;flex-shrink:0;letter-spacing:.5px}
+.lg-nfcu{background:linear-gradient(135deg,#003366,#00509e)}
+.lg-cit{background:linear-gradient(135deg,#00529b,#003a70)}
+.lg-boa{background:linear-gradient(135deg,#012169,#e21833)}
+.lg-amex{background:linear-gradient(135deg,#006fcf,#00457c)}
+.lg-fid{background:linear-gradient(135deg,#128744,#0a5c2f)}
+.lg-van{background:linear-gradient(135deg,#96151d,#6b0e15)}
+.acct-info{min-width:0;flex:1}
+.acct-name{font-size:13px;font-weight:700;color:var(--ink)}
+.acct-meta{font-size:11px;color:var(--muted);margin-top:1px;font-weight:500}
+.acct-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.acct-amt{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono);color:var(--ink)}
+.acct-amt.warn{color:var(--amber)}
+.acct-amt.dnger{color:var(--red)}
+.acct-amt.pos{color:var(--green)}
+.acct-tag{font-size:9px;font-weight:800;padding:2px 7px;border-radius:20px;background:rgba(37,99,235,.12);color:var(--accent);letter-spacing:.4px;text-transform:uppercase}
+.acct-tag.route{background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(168,85,247,.18));color:#6d28d9;border:1px solid rgba(168,85,247,.3)}
+.acct-tag.warn{background:rgba(217,119,6,.13);color:var(--amber)}
+.acct-tag.target{background:rgba(5,150,105,.13);color:var(--green)}
+
+.routing-callout{margin-top:14px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(99,102,241,.10),rgba(168,85,247,.10));border:1px solid rgba(168,85,247,.25);display:flex;gap:11px;align-items:flex-start;font-size:12px;line-height:1.55}
+.routing-callout b{color:#6d28d9}
+
+/* Footer */
+.foot{text-align:center;padding:30px 0 0;font-size:10px;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase;font-weight:700}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.bill-card{animation:fadeUp .28s ease backwards}
+
+/* Email-confirmed badge */
+.eml-badge{display:inline-flex;align-items:center;font-size:9px;font-weight:800;letter-spacing:.06em;padding:2px 7px;border-radius:20px;background:rgba(13,148,136,.13);color:var(--teal)}
+
+@media(max-width:760px){
+  .kpi-g{grid-template-columns:repeat(2,1fr);gap:8px}
+  .pc-grid{grid-template-columns:1fr}
+  .bal-summary{grid-template-columns:1fr}
+  .hdr{flex-direction:column;align-items:flex-start}
+  .hdr h1{font-size:20px}
+  .loan-top{flex-direction:column}
+  .loan-bal-blk{text-align:left}
+  .tab{padding:9px 11px;font-size:12px}
+}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(107,120,149,.3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(107,120,149,.5)}
+</style>
+</head>
+<body>
+<div class="c">
+
+  <!-- HEADER -->
+  <header class="hdr g sec">
+    <div>
+      <div class="eyebrow">Cochrane Family Finance</div>
+      <h1>Bill &amp; Payment Tracker</h1>
+      <div class="sub" id="hdr-sub"></div>
+    </div>
+    <div class="hdr-r">
+      <span class="pill sync"><span class="dot"></span><span id="scan-status">Last email scan May 8, 2026</span></span>
+      <span class="pill date" id="hdr-date"></span>
+    </div>
+  </header>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-g sec">
+    <div class="kpi g gr">
+      <div class="lbl">Monthly Take-Home</div>
+      <div class="val">$3,896</div>
+      <div class="sm">~2 paychecks / mo</div>
+    </div>
+    <div class="kpi g am">
+      <div class="lbl">Fixed Bills</div>
+      <div class="val" id="kpi-bills">—</div>
+      <div class="sm">recurring obligations</div>
+    </div>
+    <div class="kpi g bl">
+      <div class="lbl">Paid This Month</div>
+      <div class="val" id="kpi-paid">$0</div>
+      <div class="sm" id="kpi-paid-sub">0 of 0 bills</div>
+    </div>
+    <div class="kpi g rd">
+      <div class="lbl">Buffer Remaining</div>
+      <div class="val" id="kpi-buffer">—</div>
+      <div class="sm">income minus bills</div>
+    </div>
+  </div>
+
+  <!-- BALANCE STRIP — always visible across tabs -->
+  <div class="bal-strip g sec">
+    <div class="bal-cell bill">
+      <div class="lbl">🏦 Bill Acct</div>
+      <div class="val">$1,434.07</div>
+      <div class="sub">NFCU ···8332</div>
+    </div>
+    <div class="bal-cell cit">
+      <div class="lbl">⭐ CIT Bank HYSA</div>
+      <div class="val">$10,143.84</div>
+      <span class="badge-mini">+$680/pay → ~$10,824 after 5/19</span>
+    </div>
+    <div class="bal-cell dbt">
+      <div class="lbl">💳 Total Debt</div>
+      <div class="val">$29,656.43</div>
+      <div class="sub">Amex + Auto</div>
+    </div>
+    <button class="bal-link" onclick="document.querySelector('[data-tab=accts]').click()">View all →</button>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="prog-wrap g sec" id="progress-wrap">
+    <div class="prog-meta">
+      <span class="prog-title">Monthly Progress</span>
+      <span class="prog-stat" id="prog-stat">0 / 0 paid</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" data-tab="bills">💳 Bills <span class="tab-count" id="tc-bills">0</span></button>
+    <button class="tab" data-tab="accts">🏦 Accounts</button>
+    <button class="tab" data-tab="pay">💰 Paychecks</button>
+    <button class="tab" data-tab="snap">📊 Snapshot</button>
+  </div>
+
+  <!-- BILLS PANEL -->
+  <div id="bills-pane" class="tab-pane active">
+    <div class="action-bar">
+      <button class="btn btn-danger" onclick="resetMonth()">↻ Reset Month</button>
+    </div>
+    <div id="bills-out"></div>
+  </div>
+
+  <!-- ACCOUNTS PANEL -->
+  <div id="accts-pane" class="tab-pane">
+    <div class="bal-summary">
+      <div class="bal-tile g ck">
+        <div class="lbl">Checking Total</div>
+        <div class="val">$1,507.39</div>
+        <div class="sm">4 NFCU accounts</div>
+      </div>
+      <div class="bal-tile g sv">
+        <div class="lbl">Savings Total</div>
+        <div class="val">$12,415.13</div>
+        <div class="sm">incl. CIT HYSA + Kids</div>
+      </div>
+      <div class="bal-tile g dt">
+        <div class="lbl">Total Debt</div>
+        <div class="val">$29,656.43</div>
+        <div class="sm">Amex + Auto Loan</div>
+      </div>
+    </div>
+
+    <div class="g sec" style="padding:18px 22px">
+      <div class="sec-hdr" style="margin-top:0">
+        <span class="sec-title">🏦 Checking Accounts · NFCU</span>
+        <span class="sec-pill">$1,507.39</span>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Billing Account</div><div class="acct-meta">···8332 · all bill drafts</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt">$1,434.07</div><span class="acct-tag">Bills</span></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Daily Spending</div><div class="acct-meta">···8687</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt warn">$64.06</div></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Personal Account</div><div class="acct-meta">···8768</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt dnger">$9.20</div></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Wife's Spending</div><div class="acct-meta">···9871 · Valencia</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt dnger">$0.06</div></div>
+      </div>
+    </div>
+
+    <div class="g sec" style="padding:18px 22px">
+      <div class="sec-hdr" style="margin-top:0">
+        <span class="sec-title">💰 Savings &amp; HYSA</span>
+        <span class="sec-pill">$12,415.13</span>
+      </div>
+      <div class="acct-row featured">
+        <div class="acct-left">
+          <div class="acct-logo lg-cit">CIT</div>
+          <div class="acct-info"><div class="acct-name">CIT Bank HYSA</div><div class="acct-meta">···5948 · high-yield savings</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt pos">$10,143.84</div><span class="acct-tag route">+$680/pay</span></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">NFCU Surplus</div><div class="acct-meta">···9330</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt">$539.84</div></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Emergency Fund</div><div class="acct-meta">···0012 · target $15,000</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt dnger">$0.25</div><span class="acct-tag warn">Critical</span></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Kids — Esme</div><div class="acct-meta">···6660</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt pos">$535.40</div></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Kids — Violette</div><div class="acct-meta">···9156</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt pos">$660.40</div></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">Kids — Judah</div><div class="acct-meta">···2409</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt pos">$535.40</div></div>
+      </div>
+      <div class="routing-callout">
+        <span style="font-size:18px">🔀</span>
+        <div><b>Payday routing:</b> $1,948.09 → Bill Acct ···8332 <i>plus</i> <b>$680 → CIT HYSA ···5948</b> (additional sweep). CIT projected ~$10,823.84 after May 19 paycheck.</div>
+      </div>
+    </div>
+
+    <div class="g sec" style="padding:18px 22px">
+      <div class="sec-hdr" style="margin-top:0">
+        <span class="sec-title">🏠 Mortgage &amp; Loans</span>
+        <span class="sec-pill">$29,656.43 debt</span>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-boa">BoA</div>
+          <div class="acct-info"><div class="acct-name">Bank of America Mortgage</div><div class="acct-meta">$1,964.86 / mo · due 1st</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt">$1,964.86</div><span class="acct-tag">Monthly P&amp;I</span></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-amex">AX</div>
+          <div class="acct-info"><div class="acct-name">More Rewards Amex</div><div class="acct-meta">···3428 · 18% APR · Priority #1</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt dnger">$9,304.91</div><span class="acct-tag warn">High interest</span></div>
+      </div>
+      <div class="acct-row">
+        <div class="acct-left">
+          <div class="acct-logo lg-nfcu">NF</div>
+          <div class="acct-info"><div class="acct-name">NFCU Auto Loan</div><div class="acct-meta">···9610 · 9% APR · $449.81/mo</div></div>
+        </div>
+        <div class="acct-right"><div class="acct-amt dnger">$20,351.52</div><span class="acct-tag">Per paycheck</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYCHECKS PANEL -->
+  <div id="pay-pane" class="tab-pane">
+    <div class="sec-hdr" style="margin-top:0">
+      <span class="sec-title">Upcoming Paychecks</span>
+      <span class="sec-pill">Biweekly · ~$1,948 / check</span>
+    </div>
+    <div class="pc-grid" id="pc-out"></div>
+
+    <div class="loan-card g">
+      <div class="loan-top">
+        <div>
+          <div class="loan-title">NFCU Auto Loan — Car Note</div>
+          <div class="loan-sub">~9% APR · $449.81 / mo · paid per paycheck</div>
+        </div>
+        <div class="loan-bal-blk">
+          <div class="loan-bal">$20,351.52</div>
+          <div class="loan-bal-lbl">Balance as of May 7, 2026</div>
+        </div>
+      </div>
+      <div class="loan-stats">
+        <div class="loan-stat"><div class="loan-stat-val">~$153</div><div class="loan-stat-lbl">Interest / mo</div></div>
+        <div class="loan-stat"><div class="loan-stat-val">~$297</div><div class="loan-stat-lbl">Principal / mo</div></div>
+        <div class="loan-stat"><div class="loan-stat-val">~55 mo</div><div class="loan-stat-lbl">Est. Payoff</div></div>
+      </div>
+      <div class="loan-bar-track"><div class="loan-bar-fill" style="width:27%"></div></div>
+      <div class="loan-bar-meta">
+        <span>~27% paid off</span>
+        <span>Payoff est. — Dec 2030</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNAPSHOT PANEL -->
+  <div id="snap-pane" class="tab-pane">
+    <div class="sec-hdr" style="margin-top:0">
+      <span class="sec-title">Monthly Spending Breakdown</span>
+    </div>
+    <div id="snap-out"></div>
+  </div>
+
+  <footer class="foot">
+    Cochrane Family Finance · Auto-synced via Gmail scan · May 2026
+  </footer>
+</div>
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────────────────────────
+const TODAY  = new Date(2026, 4, 8);  // May 8, 2026
+const MONTH  = TODAY.getMonth();
+const YEAR   = TODAY.getFullYear();
+const INCOME = 3896;
+
+const ML = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+// ── BILLS ────────────────────────────────────────────────────────────────────
+// due: calendar day (1-31), 0 = auto-deducted per paycheck
+// lastPaid: set automatically by weekly Gmail scan — { date:'YYYY-MM-DD', amt:XX.XX }
+// lastScan: ISO date of last automated Gmail scan
+const LAST_SCAN = '2026-05-08'; // auto-updated by scheduled task
+
+const BILLS = [
+  // Housing
+  { id:'mortgage', name:'Bank of America Mortgage',    cat:'Housing',        amt:1964.86, due:1,  freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  // Utilities
+  { id:'ga_power', name:'Georgia Power (GPC)',          cat:'Utilities',      amt:184.00,  due:20, freq:'Monthly',   note:'Avg ~$184 — varies seasonally',                                               lastPaid:null },
+  { id:'ga_gas',   name:'Georgia Natural Gas',          cat:'Utilities',      amt:98.87,   due:9,  freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  { id:'water',    name:'Henry County Water',           cat:'Utilities',      amt:42.00,   due:10, freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  { id:'att_int',  name:'AT&T Internet',                cat:'Utilities',      amt:104.14,  due:8,  freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  { id:'att_wls',  name:'AT&T Wireless',                cat:'Utilities',      amt:74.46,   due:10, freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  { id:'adt',      name:'ADT Security',                 cat:'Utilities',      amt:63.99,   due:4,  freq:'Monthly',   note:'Jan charge ($128.98) was install fee — $63.99/mo is regular recurring rate',   lastPaid:null },
+  { id:'redoak',   name:'Redoak Sanitation',            cat:'Utilities',      amt:27.00,   due:3,  freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  // Insurance
+  { id:'allstate', name:'Allstate (Auto & Home)',       cat:'Insurance',      amt:291.63,  due:10, freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  { id:'allst2',   name:'Allstate (Supplemental)',      cat:'Insurance',      amt:6.08,    due:13, freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  { id:'nwm',      name:'Northwestern Mutual',          cat:'Insurance',      amt:30.03,   due:9,  freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  // Debt
+  { id:'car',      name:'NFCU Auto Loan (Car Note)',    cat:'Debt',           amt:449.81,  due:0,  freq:'Semi-mo',   note:'Balance: $20,351.52 · ~9% APR · Payoff est. ~55 months',                      lastPaid:null },
+  { id:'sba',      name:'SBA EIDL Loan',                cat:'Debt',           amt:25.00,   due:3,  freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  // Subscriptions
+  { id:'bilt',     name:'Bilt Card Annual Fee',         cat:'Subscriptions',  amt:11.99,   due:17, freq:'Monthly',   note:null,                                                                           lastPaid:null },
+  // Savings
+  { id:'vanguard', name:'Vanguard Investment',          cat:'Savings',        amt:100.00,  due:0,  freq:'Semi-mo',   note:'Auto-deducted per paycheck',                                                  lastPaid:null },
+  { id:'kids',     name:'Kids Savings (3 accounts)',    cat:'Savings',        amt:30.00,   due:0,  freq:'Semi-mo',   note:'Auto-deducted per paycheck',                                                  lastPaid:null },
+  { id:'cit',      name:'CIT Bank HYSA',                cat:'Savings',        amt:680.00,  due:0,  freq:'Semi-mo',   note:'$680/paycheck payroll split — routed directly to CIT, does NOT flow through bills account (8332). Part of ~$2,628 total net paycheck.',  lastPaid:null },
+  // Other
+  { id:'lawn',     name:'Lawn Care — Joshua Williams',  cat:'Other',          amt:85.00,   due:12, freq:'Bi-weekly', note:'Bi-weekly service (every ~2 weeks, seasonal)',                                 lastPaid:null },
+];
+
+// Biweekly paychecks
+const PAYCHECKS = [
+  new Date(2026,3,21),
+  new Date(2026,4,6),
+  new Date(2026,4,19),
+  new Date(2026,5,2),
+  new Date(2026,5,16),
+  new Date(2026,6,1),
+];
+
+const CAT_ORDER  = ['Housing','Utilities','Insurance','Debt','Subscriptions','Savings','Other'];
+const CAT_COLORS = {
+  Housing:'#7c3aed', Utilities:'#2563eb', Insurance:'#0d9488',
+  Debt:'#be185d', Subscriptions:'#b45309', Savings:'#047857', Other:'#475569'
+};
+
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+const K = id => `cf_${YEAR}_${MONTH+1}_${id}`;
+// isPaid: checks localStorage (manual checkbox) OR email-confirmed payment this month
+const isPaid = id => {
+  if (localStorage.getItem(K(id)) === '1') return true;
+  const bill = BILLS.find(b => b.id === id);
+  if (bill && bill.lastPaid) {
+    const [y, m] = bill.lastPaid.date.split('-').map(Number);
+    if (y === YEAR && m === MONTH + 1) return true;
+  }
+  return false;
+};
+// emailConfirmed: true if paid status came from email scan (not manual click)
+const emailConfirmed = id => {
+  const bill = BILLS.find(b => b.id === id);
+  if (!bill || !bill.lastPaid) return false;
+  const [y, m] = bill.lastPaid.date.split('-').map(Number);
+  return y === YEAR && m === MONTH + 1;
+};
+const setPaid  = id => localStorage.setItem(K(id), '1');
+const unset    = id => localStorage.removeItem(K(id));
+
+function resetMonth() {
+  if (!confirm('Reset all bills for ' + ML[MONTH] + ' ' + YEAR + '?')) return;
+  BILLS.forEach(b => localStorage.removeItem(K(b.id)));
+  render();
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+const fmt = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+function dueStatus(d) {
+  if (d === 0) return 'auto';
+  const diff = Math.round((new Date(YEAR, MONTH, d) - TODAY) / 86400000);
+  if (diff < 0)  return 'overdue';
+  if (diff <= 3) return 'soon';
+  return 'upcoming';
+}
+
+function dueLabel(d) {
+  if (d === 0) return 'Auto · per paycheck';
+  const diff = Math.round((new Date(YEAR, MONTH, d) - TODAY) / 86400000);
+  const base = 'Due ' + MS[MONTH] + ' ' + d;
+  if (diff === 0) return base + ' — today';
+  if (diff === 1) return base + ' — tomorrow';
+  if (diff < 0)  return base + ' — ' + Math.abs(diff) + 'd overdue';
+  return base + ' — in ' + diff + 'd';
+}
+
+// ── RENDER BILLS ─────────────────────────────────────────────────────────────
+function render() {
+  const out = document.getElementById('bills-out');
+  out.innerHTML = '';
+
+  let totalFixed = 0, totalPaid = 0, paidCount = 0, totalCount = 0;
+
+  CAT_ORDER.forEach(cat => {
+    const cb = BILLS.filter(b => b.cat === cat);
+    if (!cb.length) return;
+
+    const catAmt = cb.reduce((s, b) => s + b.amt, 0);
+    const hdr = document.createElement('div');
+    hdr.className = 'sec-hdr';
+    hdr.innerHTML = '<span class="sec-title">' + cat + '</span>' +
+      '<span class="sec-pill">' + fmt(catAmt) + '</span>';
+    out.appendChild(hdr);
+
+    cb.forEach((bill, idx) => {
+      const paid   = isPaid(bill.id);
+      const status = paid ? 'paid' : dueStatus(bill.due);
+
+      totalFixed += bill.amt; totalCount++;
+      if (paid) { totalPaid += bill.amt; paidCount++; }
+
+      const statusMap = {
+        paid:     ['s-paid',    'Paid'],
+        overdue:  ['s-overdue', 'Overdue'],
+        soon:     ['s-soon',    'Due Soon'],
+        upcoming: ['s-upcoming','Upcoming'],
+        auto:     ['s-auto',    'Auto'],
+      };
+      const [sc, sl] = statusMap[status] || statusMap.upcoming;
+
+      let cc = 'bill-card' + (paid ? ' paid' : '');
+      if (!paid && status === 'overdue') cc += ' overdue-c';
+      if (!paid && status === 'soon')    cc += ' soon-c';
+
+      const card = document.createElement('div');
+      card.className = cc;
+      card.style.animationDelay = idx * 0.035 + 's';
+
+      const freqBadge = (bill.freq !== 'Monthly')
+        ? '<span class="badge b-Other">' + bill.freq + '</span>' : '';
+      const noteEl = bill.note
+        ? '<div class="bill-note">' + bill.note + '</div>' : '';
+      // Email-confirmed badge + actual amount display
+      const isEmailConf = emailConfirmed(bill.id);
+      const confirmedAmt = (isEmailConf && bill.lastPaid && bill.lastPaid.amt) ? bill.lastPaid.amt : null;
+      const displayAmt = confirmedAmt !== null ? confirmedAmt : bill.amt;
+      const emailBadge = isEmailConf
+        ? '<span class="eml-badge">✓ EMAIL</span>' : '';
+      const amtNote = (confirmedAmt !== null && confirmedAmt !== bill.amt)
+        ? '<span style="font-size:10px;color:var(--muted);margin-left:4px;font-family:Inter">(est. ' + fmt(bill.amt) + ')</span>' : '';
+
+      card.innerHTML =
+        '<div class="chk">' +
+          '<svg class="chk-svg" viewBox="0 0 11 11" fill="none"' +
+          ' stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<polyline points="1.5,5.5 4.5,8.5 9.5,2.5"/></svg>' +
+        '</div>' +
+        '<div class="bill-info">' +
+          '<div class="bill-name">' + bill.name + '</div>' +
+          '<div class="bill-meta">' +
+            '<span class="due-txt">' + dueLabel(bill.due) + '</span>' +
+            '<span class="badge b-' + bill.cat + '">' + bill.cat + '</span>' +
+            freqBadge + emailBadge +
+          '</div>' + noteEl +
+        '</div>' +
+        '<div class="bill-right">' +
+          '<div class="bill-amount">' + fmt(displayAmt) + amtNote + '</div>' +
+          '<span class="badge ' + sc + '">' + sl + '</span>' +
+        '</div>';
+
+      card.addEventListener('click', function() {
+        const wasPaid = isPaid(bill.id);
+        if (wasPaid) unset(bill.id); else setPaid(bill.id);
+
+        if (!wasPaid) {
+          const r = document.createElement('div');
+          r.className = 'ripple';
+          const ck = card.querySelector('.chk');
+          const cr = card.getBoundingClientRect();
+          const kr = ck.getBoundingClientRect();
+          r.style.left = (kr.left - cr.left + kr.width  / 2 - 20) + 'px';
+          r.style.top  = (kr.top  - cr.top  + kr.height / 2 - 20) + 'px';
+          card.appendChild(r);
+          setTimeout(() => r.remove(), 420);
+        }
+
+        render();
+      });
+
+      out.appendChild(card);
+    });
+  });
+
+  // KPIs
+  const buffer = INCOME - totalFixed;
+  document.getElementById('kpi-bills').textContent    = fmt(totalFixed);
+  document.getElementById('kpi-paid').textContent     = fmt(totalPaid);
+  document.getElementById('kpi-paid-sub').textContent = paidCount + ' of ' + totalCount + ' bills';
+  document.getElementById('kpi-buffer').textContent   = fmt(buffer);
+  document.getElementById('prog-stat').textContent    = paidCount + ' / ' + totalCount + ' paid';
+  document.getElementById('tc-bills').textContent     = totalCount;
+
+  const pct = totalCount ? (paidCount / totalCount) * 100 : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+
+  const pw = document.getElementById('progress-wrap');
+  if (paidCount > 0 && paidCount === totalCount) pw.classList.add('celebration');
+  else pw.classList.remove('celebration');
+
+  renderSnap(totalFixed, buffer);
+}
+
+// ── RENDER PAYCHECKS ─────────────────────────────────────────────────────────
+function renderPay() {
+  const out = document.getElementById('pc-out');
+  out.innerHTML = '';
+
+  PAYCHECKS.forEach(d => {
+    const past   = d < TODAY;
+    const isNext = !past && PAYCHECKS.filter(p => p >= TODAY)[0]?.getTime() === d.getTime();
+    const diff   = Math.round((d - TODAY) / 86400000);
+
+    const cls  = 'pc-card g ' + (past ? 'pc-past' : isNext ? 'pc-next' : 'pc-future');
+    const lbl  = past ? '✓ Received' : isNext ? '⟳ Next Up' : 'Upcoming';
+    const cd   = past
+      ? ('Received ' + (diff === 0 ? 'today' : Math.abs(diff) + 'd ago'))
+      : isNext
+        ? (diff === 0 ? '🎉 Today!' : 'In ' + diff + ' day' + (diff === 1 ? '' : 's'))
+        : 'In ' + diff + ' days';
+
+    const card = document.createElement('div');
+    card.className = cls;
+    card.innerHTML =
+      '<div class="pc-lbl">' + lbl + '</div>' +
+      '<div class="pc-date">' + DL[d.getDay()] + ', ' + MS[d.getMonth()] + ' ' + d.getDate() + '</div>' +
+      '<div class="pc-amt">$1,948.09</div>' +
+      '<div class="pc-cd">' + cd + '</div>';
+    out.appendChild(card);
+  });
+}
+
+// ── RENDER SNAPSHOT ───────────────────────────────────────────────────────────
+function renderSnap(totalFixed, buffer) {
+  const out = document.getElementById('snap-out');
+  out.innerHTML = '';
+
+  const ct = {};
+  BILLS.forEach(b => { ct[b.cat] = (ct[b.cat] || 0) + b.amt; });
+
+  CAT_ORDER.forEach(cat => {
+    const amt = ct[cat];
+    if (!amt) return;
+    const pct   = (amt / totalFixed * 100).toFixed(1);
+    const color = CAT_COLORS[cat];
+
+    const row = document.createElement('div');
+    row.className = 'snap-row';
+    row.innerHTML =
+      '<div class="snap-label">' + cat + '</div>' +
+      '<div class="snap-bar-wrap">' +
+        '<div class="snap-bar" style="width:' + pct + '%;background:' + color + '"></div>' +
+      '</div>' +
+      '<div class="snap-val" style="color:' + color + '">' + fmt(amt) + '</div>';
+    out.appendChild(row);
+  });
+
+  const div = document.createElement('div');
+  div.className = 'snap-divider';
+  out.appendChild(div);
+
+  const tot = document.createElement('div');
+  tot.className = 'snap-row snap-total';
+  tot.innerHTML =
+    '<div class="snap-label">Total Fixed Bills</div>' +
+    '<div class="snap-bar-wrap"></div>' +
+    '<div class="snap-val">' + fmt(totalFixed) + '</div>';
+  out.appendChild(tot);
+
+  const buf = document.createElement('div');
+  buf.className = 'snap-row snap-buffer';
+  buf.innerHTML =
+    '<div class="snap-label">Discretionary Buffer</div>' +
+    '<div class="snap-bar-wrap">' +
+      '<div class="snap-bar" style="width:' + (buffer / INCOME * 100).toFixed(1) + '%;background:var(--green)"></div>' +
+    '</div>' +
+    '<div class="snap-val">' + fmt(buffer) + '</div>';
+  out.appendChild(buf);
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab + '-pane').classList.add('active');
+  });
+});
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+document.getElementById('hdr-date').textContent =
+  DL[TODAY.getDay()] + ', ' + ML[MONTH] + ' ' + TODAY.getDate() + ', ' + YEAR;
+document.getElementById('hdr-sub').textContent =
+  ML[MONTH] + ' ' + YEAR + ' · ' + BILLS.length + ' recurring bills tracked';
+document.getElementById('scan-status').textContent =
+  'Last email scan ' + LAST_SCAN;
+
+render();
+renderPay();
+</script>
+</body>
+</html>
