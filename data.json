@@ -1,0 +1,13 @@
+{
+  "jars": {
+    "lavender": 5,
+    "mint": 10,
+    "rosemary": 5,
+    "thyme": 5,
+    "tulsi": 30
+  },
+  "milestones": {
+    "first_planting": "May 9, 2026"
+  },
+  "journal": []
+}
