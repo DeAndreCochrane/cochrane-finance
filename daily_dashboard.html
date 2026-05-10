@@ -2678,16 +2678,17 @@ function pickMood(mood) {
 }
 
 
+
 // ===== HERB OF THE DAY =====
 (function() {
   var herbs = [
-    { em: '\u{1F49C}', name: 'Lavender', latin: 'Lavandula angustifolia', fact: 'Lavender has been used for over 2,500 years. Romans added it to their baths — the name comes from the Latin lavare, "to wash." Its linalool compound measurably reduces cortisol within minutes of inhalation.', tip: '🌿 Today\'s action: Cut one sprig, crush it between your fingers, and breathe slowly for 5 deep inhales. Notice how quickly your shoulders drop.' },
-    { em: '🌿', name: 'Peppermint', latin: 'Mentha × piperita', fact: 'Peppermint is a natural hybrid — it doesn\'t exist in the wild. Every plant is a clone. Its menthol activates cold receptors, which is why mint feels cool without lowering temperature. Clinical trials confirm it rivals acetaminophen for tension headaches when applied topically.', tip: '🌿 Today\'s action: Brew a cup of fresh mint tea. Pick leaves just before boiling — cover the mug while steeping to trap the volatile oils.' },
-    { em: '🌲', name: 'Rosemary', latin: 'Salvia rosmarinus', fact: 'Ancient Greek scholars wore rosemary garlands during exams to boost memory. Modern research confirms it — the compound 1,8-cineole crosses the blood-brain barrier and inhibits enzymes that break down memory neurotransmitters. Just the scent measurably improves working memory test scores.', tip: '🌿 Today\'s action: Snap a sprig and run it through your fingers before any task that needs focus. Let the scent do its work — it takes about 3 minutes.' },
-    { em: '🌾', name: 'Thyme', latin: 'Thymus vulgaris', fact: 'Thyme contains thymol — one of the most effective natural antiseptics known. It was used to dress wounds in WWI when antiseptics ran low. Modern studies confirm thymol is as effective as over-the-counter cough syrups against bronchitis. Thyme honey is among the best-documented natural throat remedies.', tip: '🌿 Today\'s action: Start a thyme honey this week. Pack fresh thyme sprigs into a small jar of raw honey. Seal it, flip once a day, wait 2 weeks.' },
-    { em: '🌺', name: 'Holy Basil (Tulsi)', latin: 'Ocimum tenuiflorum', fact: 'Tulsi is called "The Queen of Herbs" in Ayurvedic tradition and has been in continuous use for over 3,000 years. It\'s a true adaptogen — it helps your body adapt bidirectionally to stress, raising energy when depleted and calming when overstimulated. Clinical trials show daily tulsi tea reduces cortisol and anxiety.', tip: '🌿 Today\'s action: Pinch the top 2–3 inches off your tulsi to keep it bushy. Steep those cuttings fresh — this is your most ready-to-use herb right now.' },
-    { em: '🌼', name: 'Calendula', latin: 'Calendula officinalis', fact: 'Calendula petals contain flavonoids that accelerate wound healing and dramatically reduce skin inflammation. Clinical studies show calendula cream outperforms petroleum jelly for diaper rash, post-radiation skin, and surgical wounds. It self-seeds every year — plant it once and it comes back as a gift.', tip: '🌿 Today\'s action: Add calendula to the top of your wishlist — get seeds or a start before June. It will give you your first DIY skin salve by fall.' },
-    { em: '🍋', name: 'Lemon Balm', latin: 'Melissa officinalis', fact: 'Lemon balm (Melissa means "honey bee" in Greek) has been cultivated for over 2,000 years. Modern research confirms it reduces anxiety and improves mood within 1 hour of a single dose — and it\'s gentle enough for children. Blends beautifully with mint for a calming evening tea.', tip: '🌿 Today\'s action: Put lemon balm on your next nursery run. Kid-safe, forgiving for beginners, and delicious blended with your mint.' }
+    { em: '💜',     name: 'Lavender',          latin: 'Lavandula angustifolia', fact: 'Lavender has been used for over 2,500 years. Romans added it to their baths - the name comes from the Latin lavare, "to wash." Its linalool compound measurably reduces cortisol within minutes of inhalation.',   tip: '🌿 Today\'s action: Cut one sprig, crush it between your fingers, and breathe slowly for 5 deep inhales. Notice how quickly your shoulders drop.' },
+    { em: '🌿',  name: 'Peppermint',         latin: 'Mentha x piperita',     fact: 'Peppermint is a natural hybrid - it does not exist in the wild. Its menthol activates cold receptors, making mint feel cool without lowering temperature. Clinical trials confirm it rivals acetaminophen for tension headaches applied topically.', tip: '🌿 Today\'s action: Brew a cup of fresh mint tea. Pick leaves just before boiling - cover the mug while steeping to trap the volatile oils.' },
+    { em: '🌲',   name: 'Rosemary',           latin: 'Salvia rosmarinus',     fact: 'Ancient Greek scholars wore rosemary garlands during exams to boost memory. The compound 1,8-cineole crosses the blood-brain barrier and inhibits enzymes that break down memory neurotransmitters. The scent alone measurably improves working memory scores.', tip: '🌿 Today\'s action: Snap a sprig and run it through your fingers before any task that needs focus. Let the scent do its work - takes about 3 minutes.' },
+    { em: '🌾',  name: 'Thyme',              latin: 'Thymus vulgaris',       fact: 'Thyme contains thymol - one of the most effective natural antiseptics known. Used to dress wounds in WWI. Modern studies confirm thymol is as effective as over-the-counter cough syrups against bronchitis. Thyme honey is among the best-documented natural throat remedies.', tip: '🌿 Today\'s action: Start a thyme honey this week. Pack fresh thyme sprigs into a small jar of raw honey. Seal, flip once a day, wait 2 weeks.' },
+    { em: '🌺', name: 'Holy Basil (Tulsi)', latin: 'Ocimum tenuiflorum',   fact: 'Tulsi is called "The Queen of Herbs" in Ayurvedic tradition - in use for over 3,000 years. A true adaptogen that helps your body adapt bidirectionally to stress, raising energy when depleted and calming when overstimulated. Clinical trials confirm daily tea reduces cortisol and anxiety.', tip: '🌿 Today\'s action: Pinch the top 2-3 inches off your tulsi to keep it bushy. Steep those cuttings fresh - your most ready-to-use herb right now.' },
+    { em: '🌼',  name: 'Calendula',          latin: 'Calendula officinalis', fact: 'Calendula petals contain flavonoids that accelerate wound healing and reduce skin inflammation. Clinical studies show calendula cream outperforms petroleum jelly for diaper rash and post-radiation skin. Plant it once - it self-seeds every year as a gift.', tip: '🌿 Today\'s action: Add calendula to the top of your wishlist - get seeds or a start before June. It will give you your first DIY skin salve by fall.' },
+    { em: '🍋',  name: 'Lemon Balm',         latin: 'Melissa officinalis',   fact: 'Lemon balm has been cultivated for over 2,000 years. Modern research confirms it reduces anxiety and improves mood within 1 hour of a single dose - gentle enough for children. Blends beautifully with your mint for a calming evening tea.', tip: '🌿 Today\'s action: Put lemon balm on your next nursery run. Kid-safe, forgiving for beginners, delicious blended with mint.' }
   ];
   var today = new Date();
   var idx = today.getDate() % herbs.length;
@@ -2701,12 +2702,13 @@ function pickMood(mood) {
   document.getElementById('hotd-tip').innerHTML = h.tip;
   var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   var mos = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('hotd-date-label').textContent = days[today.getDay()] + ', ' + mos[today.getMonth()] + ' ' + today.getDate() + ' · A new herb spotlight every morning.';
+  document.getElementById('hotd-date-label').textContent = days[today.getDay()] + ', ' + mos[today.getMonth()] + ' ' + today.getDate() + ' - A new herb spotlight every morning.';
 })();
 
 // ===== JAR FILL with localStorage persistence =====
 (function initJars() {
-  var saved = JSON.parse(localStorage.getItem('apo_jar_levels') || '{}');
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem('apo_jar_levels') || '{}'); } catch(e) {}
   document.querySelectorAll('.jar-wrap[data-jar]').forEach(function(wrap) {
     var jarId = wrap.getAttribute('data-jar');
     if (saved[jarId] !== undefined) {
@@ -2714,37 +2716,39 @@ function pickMood(mood) {
       var fill = wrap.querySelector('.jar-fill');
       var pctEl = wrap.querySelector('.jar-pct');
       var fillColor = wrap.getAttribute('data-fill-color') || 'rgba(167,139,250,.35)';
-      fill.style.height = pct + '%';
-      fill.style.background = fillColor;
-      pctEl.textContent = pct + '%';
+      if (fill) { fill.style.height = pct + '%'; fill.style.background = fillColor; }
+      if (pctEl) pctEl.textContent = pct + '%';
       var nextLevels = [5,15,30,50,75,100];
       var ni = nextLevels.indexOf(pct);
-      var nextPct = nextLevels[(ni+1) % nextLevels.length];
-      wrap.setAttribute('onclick', 'fillJar(this,' + nextPct + ',\'' + fillColor + '\',\'' + jarId + '\')');
+      var nextPct = nextLevels[(ni + 1) % nextLevels.length];
+      wrap.setAttribute('onclick', 'fillJar(this,' + nextPct + ',"' + fillColor + '","' + jarId + '")');
     }
   });
 })();
 
 function fillJar(wrap, currentPct, fillColor, jarId) {
   var levels = [5, 15, 30, 50, 75, 100];
-  var idx = levels.indexOf(currentPct);
+  var idx = levels.indexOf(Number(currentPct));
+  if (idx === -1) idx = 0;
   var next = levels[(idx + 1) % levels.length];
   var fill = wrap.querySelector('.jar-fill');
-  var pct  = wrap.querySelector('.jar-pct');
-  fill.style.height = next + '%';
-  fill.style.background = fillColor;
-  pct.textContent = next + '%';
+  var pctEl = wrap.querySelector('.jar-pct');
+  if (fill) { fill.style.height = next + '%'; fill.style.background = fillColor; }
+  if (pctEl) pctEl.textContent = next + '%';
   if (jarId) {
-    var saved = JSON.parse(localStorage.getItem('apo_jar_levels') || '{}');
-    saved[jarId] = next;
-    localStorage.setItem('apo_jar_levels', JSON.stringify(saved));
+    try {
+      var saved = JSON.parse(localStorage.getItem('apo_jar_levels') || '{}');
+      saved[jarId] = next;
+      localStorage.setItem('apo_jar_levels', JSON.stringify(saved));
+    } catch(e) {}
   }
-  wrap.setAttribute('onclick', 'fillJar(this,' + next + ',\'' + fillColor + '\',\'' + (jarId||'') + '\')');
+  wrap.setAttribute('onclick', 'fillJar(this,' + next + ',"' + fillColor + '","' + (jarId||'') + '")');
 }
 
 // ===== MILESTONE UNLOCK with localStorage + confetti =====
 (function initMilestones() {
-  var earned = JSON.parse(localStorage.getItem('apo_milestones') || '{}');
+  var earned = {};
+  try { earned = JSON.parse(localStorage.getItem('apo_milestones') || '{}'); } catch(e) {}
   document.querySelectorAll('[data-ms]').forEach(function(el) {
     var id = el.getAttribute('data-ms');
     if (earned[id] && id !== 'first_planting') {
@@ -2762,18 +2766,19 @@ function fillJar(wrap, currentPct, fillColor, jarId) {
 function updateMilestoneCount() {
   var total = document.querySelectorAll('[data-ms]').length;
   var done  = document.querySelectorAll('[data-ms].earned').length;
-  var msg   = document.getElementById('milestone-msg');
-  if (msg) msg.textContent = done + ' of ' + total + ' milestones unlocked · Keep growing, Valencia 🌿';
+  var msg = document.getElementById('milestone-msg');
+  if (msg) msg.textContent = done + ' of ' + total + ' milestones unlocked - Keep growing, Valencia 🌿';
 }
 
 function unlockMilestone(el, id, name, icon, celebMsg) {
   if (el.classList.contains('earned')) return;
-  var earned = JSON.parse(localStorage.getItem('apo_milestones') || '{}');
+  var earned = {};
+  try { earned = JSON.parse(localStorage.getItem('apo_milestones') || '{}'); } catch(e) {}
   var now = new Date();
   var mos = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var dateStr = mos[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
   earned[id] = dateStr;
-  localStorage.setItem('apo_milestones', JSON.stringify(earned));
+  try { localStorage.setItem('apo_milestones', JSON.stringify(earned)); } catch(e) {}
   el.classList.add('unlocking');
   setTimeout(function() {
     el.classList.remove('locked','unlocking');
@@ -2797,11 +2802,10 @@ function launchConfetti() {
         var p = document.createElement('div');
         p.className = 'conf-particle';
         p.style.left = (20 + Math.random() * 60) + 'vw';
-        p.style.top  = '-20px';
+        p.style.top = '-20px';
         p.style.background = colors[Math.floor(Math.random() * colors.length)];
         var sz = (6 + Math.random() * 6) + 'px';
-        p.style.width  = sz;
-        p.style.height = sz;
+        p.style.width = sz; p.style.height = sz;
         p.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
         document.body.appendChild(p);
         setTimeout(function() { p.remove(); }, 3000);
@@ -2810,9 +2814,10 @@ function launchConfetti() {
   }
 }
 
-// ===== JOURNAL — save entries to localStorage =====
+// ===== JOURNAL - save entries to localStorage =====
 (function initJournal() {
-  var entries = JSON.parse(localStorage.getItem('apo_journal') || '[]');
+  var entries = [];
+  try { entries = JSON.parse(localStorage.getItem('apo_journal') || '[]'); } catch(e) {}
   var wrap = document.getElementById('journal-entries-wrap');
   if (!wrap) return;
   entries.forEach(function(e) {
@@ -2824,9 +2829,7 @@ function launchConfetti() {
   updateJournalCount();
   var prompt = document.getElementById('journal-prompt');
   var mini   = document.getElementById('jwb-prompt-mini');
-  if (prompt && mini) {
-    setTimeout(function() { mini.textContent = prompt.textContent; }, 150);
-  }
+  if (prompt && mini) { setTimeout(function() { mini.textContent = prompt.textContent; }, 150); }
 })();
 
 function escapeHtml(str) {
@@ -2834,36 +2837,36 @@ function escapeHtml(str) {
 }
 
 function updateJournalCount() {
-  var entries = JSON.parse(localStorage.getItem('apo_journal') || '[]');
+  var entries = [];
+  try { entries = JSON.parse(localStorage.getItem('apo_journal') || '[]'); } catch(e) {}
   var countEl = document.getElementById('jwb-count');
   if (countEl) countEl.textContent = (entries.length + 1) + ' total entries';
 }
 
 function saveJournalEntry() {
-  var ta   = document.getElementById('journal-textarea');
+  var ta = document.getElementById('journal-textarea');
+  if (!ta) return;
   var text = ta.value.trim();
   if (!text) return;
-  var entries = JSON.parse(localStorage.getItem('apo_journal') || '[]');
+  var entries = [];
+  try { entries = JSON.parse(localStorage.getItem('apo_journal') || '[]'); } catch(e) {}
   var now = new Date();
   var mos = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var entry = {
-    text: text,
-    date: now.toISOString(),
-    dateShort: mos[now.getMonth()] + ' ' + now.getDate() + '<br>' + now.getFullYear()
-  };
+  var entry = { text: text, date: now.toISOString(), dateShort: mos[now.getMonth()] + ' ' + now.getDate() + '<br>' + now.getFullYear() };
   entries.push(entry);
-  localStorage.setItem('apo_journal', JSON.stringify(entries));
+  try { localStorage.setItem('apo_journal', JSON.stringify(entries)); } catch(e) {}
   var wrap = document.getElementById('journal-entries-wrap');
-  var div  = document.createElement('div');
-  div.className = 'journal-entry';
-  div.innerHTML = '<div class="jdate">' + entry.dateShort + '</div><div class="jbody">' + escapeHtml(text) + '</div>';
-  wrap.appendChild(div);
+  if (wrap) {
+    var div = document.createElement('div');
+    div.className = 'journal-entry';
+    div.innerHTML = '<div class="jdate">' + entry.dateShort + '</div><div class="jbody">' + escapeHtml(text) + '</div>';
+    wrap.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth' });
+  }
   ta.value = '';
   var savedEl = document.getElementById('jwb-saved');
-  savedEl.classList.add('show');
-  setTimeout(function() { savedEl.classList.remove('show'); }, 2500);
+  if (savedEl) { savedEl.classList.add('show'); setTimeout(function() { savedEl.classList.remove('show'); }, 2500); }
   updateJournalCount();
-  // Auto-unlock journal_30 milestone when 30 entries reached
   if (entries.length + 1 >= 30) {
     var msEl = document.querySelector('[data-ms="journal_30"].locked');
     if (msEl) msEl.click();
