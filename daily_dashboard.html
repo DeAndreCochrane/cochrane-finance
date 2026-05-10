@@ -2393,7 +2393,6 @@ html,body{font-family:'Inter',-apple-system,sans-serif;color:var(--ink);min-heig
 
 </div><!-- /container -->
 
-<script src="config.js"></script>
 
 <script>
 // ===== TAB SWITCHING =====
@@ -2684,12 +2683,8 @@ function pickMood(mood) {
 
 
 
-// ===== GITHUB SYNC CONFIG =====
-var GH_TOKEN  = window.GH_TOKEN || ''; // set via config.js (not in this file)
-var GH_OWNER  = 'DeAndreCochrane';
-var GH_REPO   = 'cochrane-finance';
-var GH_BRANCH = 'main';
-var GH_PATH   = 'data.json';
+// ===== WORKER SYNC CONFIG =====
+var WORKER_URL = 'PASTE_YOUR_WORKER_URL_HERE'; // e.g. https://cochrane-apo.yourname.workers.dev
 
 // In-memory data + SHA cache
 var apoData = { jars: {}, milestones: { first_planting: 'May 9, 2026' }, journal: [] };
@@ -2706,19 +2701,15 @@ function setSyncStatus(status) {
   else { el.textContent = ''; }
 }
 
-// ===== GITHUB API =====
-function ghFetch(method, path, body, callback) {
-  var url = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + path;
-  var opts = {
-    method: method,
-    headers: {
-      'Authorization': 'token ' + GH_TOKEN,
-      'Content-Type': 'application/json',
-      'Accept': 'application/vnd.github+json'
-    }
-  };
+// ===== WORKER API =====
+function workerFetch(method, body, callback) {
+  if (!WORKER_URL || WORKER_URL === 'PASTE_YOUR_WORKER_URL_HERE') {
+    callback(new Error('Worker URL not configured'));
+    return;
+  }
+  var opts = { method: method, headers: { 'Content-Type': 'application/json' } };
   if (body) opts.body = JSON.stringify(body);
-  fetch(url, opts)
+  fetch(WORKER_URL + '/data', opts)
     .then(function(r) { return r.json().then(function(d) { return { status: r.status, data: d }; }); })
     .then(function(r) { callback(null, r.status, r.data); })
     .catch(function(err) { callback(err); });
@@ -2726,13 +2717,12 @@ function ghFetch(method, path, body, callback) {
 
 function loadApoData() {
   setSyncStatus('loading');
-  ghFetch('GET', GH_PATH, null, function(err, status, resp) {
+  workerFetch('GET', null, function(err, status, resp) {
     if (!err && resp && resp.content) {
       apoDataSha = resp.sha;
       try {
         var decoded = decodeURIComponent(escape(atob(resp.content.replace(/\n/g,''))));
         apoData = JSON.parse(decoded);
-        // Ensure all keys exist
         if (!apoData.jars)       apoData.jars = {};
         if (!apoData.milestones) apoData.milestones = { first_planting: 'May 9, 2026' };
         if (!apoData.journal)    apoData.journal = [];
@@ -2755,20 +2745,19 @@ function saveApoData(callback) {
   var content;
   try { content = btoa(unescape(encodeURIComponent(JSON.stringify(apoData, null, 2)))); } catch(e) { setSyncStatus('error'); return; }
   function doWrite(sha) {
-    ghFetch('PUT', GH_PATH, {
+    workerFetch('PUT', {
       message: 'Dashboard sync ' + new Date().toISOString().slice(0,19).replace('T',' '),
       content: content,
-      sha: sha,
-      branch: GH_BRANCH
+      sha: sha
     }, function(err, status, resp) {
       if (!err && resp && resp.content) {
         apoDataSha = resp.content.sha;
         setSyncStatus('saved');
         if (callback) callback(null);
       } else if (status === 409) {
-        // SHA conflict — refetch and retry once
+        // SHA conflict - refetch and retry once
         apoDataSha = null;
-        ghFetch('GET', GH_PATH, null, function(e2, s2, r2) {
+        workerFetch('GET', null, function(e2, s2, r2) {
           if (!e2 && r2 && r2.sha) { apoDataSha = r2.sha; doWrite(r2.sha); }
           else { setSyncStatus('error'); }
         });
@@ -2780,7 +2769,7 @@ function saveApoData(callback) {
   if (apoDataSha) {
     doWrite(apoDataSha);
   } else {
-    ghFetch('GET', GH_PATH, null, function(err, status, resp) {
+    workerFetch('GET', null, function(err, status, resp) {
       if (!err && resp && resp.sha) { apoDataSha = resp.sha; doWrite(resp.sha); }
       else { setSyncStatus('error'); }
     });
